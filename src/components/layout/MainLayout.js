@@ -1,6 +1,9 @@
 import styled from 'styled-components'
 import {Outlet} from 'react-router-dom'
 import Header from './Header'
+import Sidebar from '../menu/Sidebar'
+import {useState} from 'react'
+import Footer from './Footer'
 
 const Layout = styled.div`
   position: relative;
@@ -14,10 +17,16 @@ const Layout = styled.div`
 `
 
 const MainLayout = () => {
+  const [sidebarVisible, setSidebarVisible] = useState(false)
+
   return (
     <Layout>
-      <Header />
+      <Header setSidebarVisible={setSidebarVisible}/>
+      <Sidebar
+        sidebarVisible={sidebarVisible}
+        setSidebarVisible={setSidebarVisible} />
       <Outlet />
+      <Footer />
     </Layout>
   )
 }

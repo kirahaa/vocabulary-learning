@@ -20,10 +20,10 @@ const Hamburger = styled.button`
   line-height: 0;
 `
 
-const Header = ({children}) => {
+const Header = ({children, setSidebarVisible}) => {
   return (
     <HeaderWrap>
-      <Hamburger>
+      <Hamburger onClick={() => setSidebarVisible(true)}>
         <Menu size={30}/>
       </Hamburger>
       {children}

@@ -5,7 +5,10 @@ const FlexBox = styled.div`
   flex-direction: ${props => props.direction};
   justify-content: ${props => props.justify};
   align-items: ${props => props.align};
-  gap: ${props => props.gap + 'rem'}
+  gap: ${props => {
+    if (props.gap) return props.gap + 'rem'
+    else return 0
+  }}
 `
 
 export default FlexBox
