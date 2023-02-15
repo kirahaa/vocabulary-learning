@@ -3,10 +3,15 @@ import styled from 'styled-components'
 const StyledButton = styled.button`
   width: ${props => {
     if (props.width) return props.width
+    else if (props.icon) return 'content-width'
     else return "100%"
   }};
-  padding: 1.8rem 3rem;
-  border-radius: .5rem;
+  padding: ${props => {
+    if (props.size === 'small') return '.8rem .8rem'
+    else if (props.size === 'big') return '1.8rem 3rem'
+    else return '1.3rem 2.5rem'
+  }};
+  border-radius: 2rem;
   font-size: 1.4rem;
   font-weight: bold;
   background-color: ${props => {
@@ -20,6 +25,10 @@ const StyledButton = styled.button`
     if (props.disabled) return .3
     else return 1
   }};
+  line-height: ${props => {
+    if (props.icon) return 0
+  }}
+}
 `
 
 export default StyledButton
