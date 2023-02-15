@@ -1,3 +1,9 @@
+export const wordLevels = {
+  basic: 'basic',
+  intermediate: 'intermediate',
+  advanced: 'advanced'
+}
+
 export const words = [
   {id: 1, en: 'abate', ko: '(강도가)약해지다', level: 'intermediate'},
   {id: 2, en: 'abandon', ko: '버리다', level: 'intermediate'},
