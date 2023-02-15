@@ -11,6 +11,31 @@ export const wordListFilterState = atom({
   default: 'all',
 })
 
+export const wordListNumStates = selector({
+  key: 'wordListNumStates',
+  get: ({get}) => {
+    const list = get(wordListState)
+    const totalNum = list.length;
+    const totalCompletedNum = list.filter((item) => item.isCompleted).length
+    const totalUnCompletedNum = totalNum - totalCompletedNum
+    const percentCompleted = totalNum === 0 ? 0 : (totalCompletedNum / totalNum) * 100
+
+    const basicNum = list.filter((item) => item.level === wordLevels.basic).length
+    const interNum = list.filter((item) => item.level === wordLevels.intermediate).length
+    const advanNum = list.filter((item) => item.level === wordLevels.advanced).length
+
+    return {
+      totalNum,
+      totalCompletedNum,
+      totalUnCompletedNum,
+      percentCompleted,
+      basicNum,
+      interNum,
+      advanNum
+    }
+  }
+})
+
 const filteredWordListState = selector({
   key: 'filteredWordListState',
   get: ({get}) => {

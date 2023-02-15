@@ -6,6 +6,8 @@ import Button from '../../components/common/Button'
 import Row from '../../components/common/Row'
 import {FileText} from 'react-feather'
 import Card from '../../components/common/Card'
+import {useRecoilValue} from 'recoil'
+import {wordListNumStates} from '../list/store/useWord'
 
 const ImageWrap = styled.div`
   position: relative;
@@ -31,6 +33,9 @@ const RowTitle = styled.h2`
 `
 
 const User = () => {
+  // ** recoil states
+  const {totalNum, totalCompletedNum, totalUnCompletedNum, percentCompleted} = useRecoilValue(wordListNumStates)
+
   return (
     <>
       <FlexBox justify="center">
@@ -40,20 +45,20 @@ const User = () => {
       </FlexBox>
       <UserName>Haley</UserName>
       <Row>
-        <p>Total Progress: 5 / 3000 words</p>
-        <ProgressBar />
+        <p>Total Progress: {totalCompletedNum} / {totalNum} words</p>
+        <ProgressBar percent={percentCompleted}/>
       </Row>
       <FlexBox gap="2">
         <Button bgColor="primary">
-          <Strong>2000</Strong>
+          <Strong>{totalNum}</Strong>
           Total
         </Button>
         <Button bgColor="secondary">
-          <Strong>1231</Strong>
-          Incompleted
+          <Strong>{totalUnCompletedNum}</Strong>
+          Uncompleted
         </Button>
         <Button bgColor="pink">
-          <Strong>23</Strong>
+          <Strong>{totalCompletedNum}</Strong>
           Completed
         </Button>
       </FlexBox>

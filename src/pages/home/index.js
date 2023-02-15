@@ -3,6 +3,11 @@ import styled from 'styled-components'
 import StyledButton from '../../components/common/Button'
 import ProgressBar from '../../components/common/ProgressBar'
 import Row from '../../components/common/Row'
+import StyledCard from '../../components/common/Card'
+import {useNavigate} from 'react-router-dom'
+import {wordLevels} from '../../database/words'
+import {wordListNumStates} from '../list/store/useWord'
+import {useRecoilValue} from 'recoil'
 
 const Title = styled.h1`
   font-weight: bold;
@@ -13,16 +18,7 @@ const RowTitle = styled.h2`
   font-weight: bold;
 `
 
-const Card = styled.div`
-  width: 100%;
-  padding: 3rem 2.5rem;
-  background-color: ${(props) => props.theme[props.bgColor]};
-  border-radius: 2rem;
-  transition: .3s all;
-  cursor: ${props => {
-    if (props.hover) return 'pointer';
-  }};
-  
+const Card = styled(StyledCard)`
   &:hover {
     transform: ${props => {
       if (props.hover) return `translate(.5rem, -.5rem)`;
@@ -47,6 +43,15 @@ const CardButton = styled(StyledButton)`
 `
 
 const Home = () => {
+  // ** hooks
+  const navigate = useNavigate()
+
+  // ** recoil
+  const {basicNum, interNum, advanNum} = useRecoilValue(wordListNumStates)
+
+  const goListPage = (level) => {
+    navigate(`/list/${level}`)
+  }
 
   return (
     <>
@@ -75,18 +80,18 @@ const Home = () => {
         <RowTitle>Study by Level</RowTitle>
         <FlexBox direction="column" justify="space-between" gap="2">
           <FlexBox gap="2">
-            <Card bgColor="secondary" hover>
+            <Card bgColor="sky" hover onClick={() => goListPage(wordLevels.basic)}>
               <h4>Basic</h4>
-              <p>100 new words</p>
+              <p>{basicNum} new words</p>
             </Card>
-            <Card bgColor="purple" hover>
+            <Card bgColor="secondary" hover onClick={() => goListPage(wordLevels.intermediate)}>
               <h4>Intermediate</h4>
-              <p>200 new words</p>
+              <p>{interNum} new words</p>
             </Card>
           </FlexBox>
-          <Card bgColor="pink" hover>
+          <Card bgColor="purple" hover onClick={() => goListPage(wordLevels.advanced)}>
             <h4>Advanced</h4>
-            <p>100 new words</p>
+            <p>{advanNum} new words</p>
           </Card>
         </FlexBox>
       </Row>

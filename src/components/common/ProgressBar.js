@@ -9,16 +9,16 @@ const Progress = styled.div`
 `
 
 const Dealt = styled.div`
-  width: ${(props) => '50%'};
+  width: ${(props) => `${props.percent}%`};
   height: inherit;
   background-color: #fff;
   border-radius: 1rem;
 `
 
-const ProgressBar = () => {
+const ProgressBar = ({percent}) => {
   return (
     <Progress>
-      <Dealt />
+      <Dealt percent={percent}/>
     </Progress>
   )
 }
