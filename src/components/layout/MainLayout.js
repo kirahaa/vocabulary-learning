@@ -4,6 +4,7 @@ import Header from './Header'
 import Sidebar from '../menu/Sidebar'
 import {useState} from 'react'
 import Footer from './Footer'
+import FloatingMenu from '../menu/FloatingMenu'
 
 const Layout = styled.div`
   position: relative;
@@ -26,6 +27,7 @@ const MainLayout = () => {
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible} />
       <Outlet />
+      <FloatingMenu />
       <Footer />
     </Layout>
   )
