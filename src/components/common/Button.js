@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const StyledButton = styled.button`
   width: ${props => {
     if (props.width) return props.width
-    else if (props.icon) return 'content-width'
+    else if (props.icon) return 'fit-content'
     else return "100%"
   }};
   padding: ${props => {

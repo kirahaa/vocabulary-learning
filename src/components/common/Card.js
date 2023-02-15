@@ -1,9 +1,26 @@
 import styled from 'styled-components'
+import {colorChip} from '../../utility/theme'
+import {wordLevels} from '../../database/words'
 
 const StyledCard = styled.div`
   width: 100%;
   padding: 3rem 2.5rem;
   background-color: ${(props) => props.theme[props.bgColor]};
+  border: 1px solid ${props => {
+    if (props.border) {
+      switch (props.border) {
+        case wordLevels.basic:
+          return colorChip.sky
+        case wordLevels.intermediate:
+          return colorChip.secondary
+        case wordLevels.advanced:
+          return colorChip.purple
+        default:
+          return colorChip.gray
+      }
+    }
+    else return 'transparent'
+  }};
   border-radius: 2rem;
   transition: .3s all;
   cursor: ${props => {
