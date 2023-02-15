@@ -25,7 +25,7 @@ const Sidebar = ({sidebarVisible, setSidebarVisible}) => {
   return (
     <StyledSidebar active={sidebarVisible} onClick={() => setSidebarVisible(!sidebarVisible)}>
       <ul>
-        <Item><Link to="/home">HOME</Link></Item>
+        <Item><Link to="/">HOME</Link></Item>
         <Item><Link to="/user">MY PAGE</Link></Item>
       </ul>
     </StyledSidebar>
