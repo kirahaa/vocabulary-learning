@@ -17,8 +17,6 @@ const Pagination = ({total, limit, page, setPage}) => {
   let firstNum = currPage - (currPage % 5) + 1
   let lastNum = currPage - (currPage % 5) + 5
 
-  console.log(currPage, 'currPage')
-
   return (
     <Nav>
       <Button
