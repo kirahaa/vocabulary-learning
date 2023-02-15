@@ -4,11 +4,13 @@ import StyledImage from '../../components/common/Image'
 import ProgressBar from '../../components/common/ProgressBar'
 import Button from '../../components/common/Button'
 import Row from '../../components/common/Row'
+import {FileText} from 'react-feather'
+import Card from '../../components/common/Card'
 
 const ImageWrap = styled.div`
   position: relative;
-  width: 12rem;
-  padding: 6rem 0;
+  width: 14rem;
+  padding: 7rem 0;
 `
 
 const UserName = styled.h1`
@@ -20,7 +22,12 @@ const UserName = styled.h1`
 
 const Strong = styled.strong`
   display: block;
-  font-size: 2rem;
+  font-size: 2.5rem;
+`
+
+const RowTitle = styled.h2`
+  padding-bottom: 2rem;
+  font-weight: bold;
 `
 
 const User = () => {
@@ -50,6 +57,32 @@ const User = () => {
           Completed
         </Button>
       </FlexBox>
+
+      <Row>
+        <RowTitle>Your Scores</RowTitle>
+        <FlexBox direction="column" gap="2">
+          <Card bgColor="gray">
+            <FlexBox gap="1">
+              <FileText size={45}/>
+              <div>
+                <h5>23-02-15</h5>
+                <p>5/10</p>
+              </div>
+            </FlexBox>
+            <ProgressBar />
+          </Card>
+          <Card bgColor="gray">
+            <FlexBox gap="1">
+              <FileText size={45}/>
+              <div>
+                <h5>23-02-14</h5>
+                <p>5/10</p>
+              </div>
+            </FlexBox>
+            <ProgressBar />
+          </Card>
+        </FlexBox>
+      </Row>
     </>
   )
 }

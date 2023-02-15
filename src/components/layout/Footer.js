@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const StyledFooter = styled.footer`
-  padding: 6rem;
+  padding: 6rem 0;
   text-align: center;
   
 `

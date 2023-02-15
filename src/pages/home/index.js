@@ -1,5 +1,4 @@
 import FlexBox from '../../components/common/FlexBox'
-import {FileText} from 'react-feather'
 import styled from 'styled-components'
 import StyledButton from '../../components/common/Button'
 import ProgressBar from '../../components/common/ProgressBar'
@@ -23,20 +22,6 @@ const Card = styled.div`
   cursor: ${props => {
     if (props.hover) return 'pointer';
   }};
-  
-  h4 {
-    font-size: 2.5rem;
-    font-weight: 500;
-  }
-  h5 {
-    font-size: 2rem;
-    font-weight: 500;
-  }
-  p {
-    padding: 1rem 0;
-    font-size: 1.4rem;
-    color: ${props => props.theme.text.lightGray};
-  }
   
   &:hover {
     transform: ${props => {
@@ -80,7 +65,7 @@ const Home = () => {
               <Strong>Perro</Strong>
             </div>
             <div>
-              <CardButton>Learn more ></CardButton>
+              <CardButton>View more ></CardButton>
             </div>
           </FlexBox>
         </Card>
@@ -102,32 +87,6 @@ const Home = () => {
           <Card bgColor="pink" hover>
             <h4>Advanced</h4>
             <p>100 new words</p>
-          </Card>
-        </FlexBox>
-      </Row>
-
-      <Row>
-        <RowTitle>Your Scores</RowTitle>
-        <FlexBox direction="column" gap="2">
-          <Card bgColor="gray">
-            <FlexBox gap="1">
-              <FileText size={45}/>
-              <div>
-                <h5>23-02-15</h5>
-                <p>5/10</p>
-              </div>
-            </FlexBox>
-            <ProgressBar />
-          </Card>
-          <Card bgColor="gray">
-            <FlexBox gap="1">
-              <FileText size={45}/>
-              <div>
-                <h5>23-02-14</h5>
-                <p>5/10</p>
-              </div>
-            </FlexBox>
-            <ProgressBar />
           </Card>
         </FlexBox>
       </Row>

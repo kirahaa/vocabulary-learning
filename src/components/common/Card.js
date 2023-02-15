@@ -9,6 +9,20 @@ const StyledCard = styled.div`
   cursor: ${props => {
     if (props.hover) return 'pointer';
   }};
+
+  h4 {
+    font-size: 2.5rem;
+    font-weight: 500;
+  }
+  h5 {
+    font-size: 2rem;
+    font-weight: 500;
+  }
+  p {
+    padding: 1rem 0;
+    font-size: 1.4rem;
+    color: ${props => props.theme.text.lightGray};
+  }
 `
 
 export default StyledCard

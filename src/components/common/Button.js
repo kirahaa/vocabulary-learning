@@ -5,7 +5,7 @@ const StyledButton = styled.button`
     if (props.width) return props.width
     else return "100%"
   }};
-  padding: .8rem 2rem;
+  padding: 1.8rem 3rem;
   border-radius: .5rem;
   font-size: 1.4rem;
   font-weight: bold;
