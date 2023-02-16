@@ -11,7 +11,7 @@ const StyledButton = styled.button`
     else if (props.size === 'big') return '1.8rem 3rem'
     else return '1.3rem 2.5rem'
   }};
-  border-radius: 2rem;
+  border-radius: 1rem;
   font-size: 1.4rem;
   font-weight: bold;
   background-color: ${props => {

@@ -36,6 +36,23 @@ export const wordListNumStates = selector({
   }
 })
 
+export const randomWordListState = selector({
+  key: 'randomWordListState',
+  get: ({get}) => {
+    const list = get(wordListState)
+    const unCompletedList = list.filter((item) => !item.isCompleted)
+    const randomTodayList = unCompletedList.sort(() => Math.random() - 0.5).slice(0, 10)
+    const notTodayList = unCompletedList.filter(item => !randomTodayList.includes(item))
+
+    return {
+      unCompletedList,
+      randomTodayList,
+      notTodayList
+    }
+  }
+})
+
+
 const filteredWordListState = selector({
   key: 'filteredWordListState',
   get: ({get}) => {

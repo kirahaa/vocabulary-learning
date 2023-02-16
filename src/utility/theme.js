@@ -1,6 +1,7 @@
 
 export const colorChip = {
   primary: '#3147eb',
+  primaryOP: 'rgba(49,71,235,0.2)',
   secondary: '#ebd531',
   green: '#76ff03',
   greenOP: 'rgba(118,255,3,0.2)',
@@ -19,7 +20,8 @@ export const bgColors = {
 }
 
 export const text = {
-  lightGray: '#eee'
+  lightGray: '#eee',
+  gray: '#8f8f8f'
 }
 
 export const darkTheme = {

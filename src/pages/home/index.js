@@ -6,7 +6,7 @@ import Row from '../../components/common/Row'
 import StyledCard from '../../components/common/Card'
 import {useNavigate} from 'react-router-dom'
 import {wordLevels} from '../../database/words'
-import {wordListNumStates} from '../list/store/useWord'
+import {randomWordListState, wordListNumStates} from '../list/store/useWord'
 import {useRecoilValue} from 'recoil'
 
 const Title = styled.h1`
@@ -48,6 +48,12 @@ const Home = () => {
 
   // ** recoil
   const {basicNum, interNum, advanNum} = useRecoilValue(wordListNumStates)
+  const {randomTodayList, notTodayList} = useRecoilValue(randomWordListState)
+
+  console.log(randomTodayList, 'random')
+  console.log(notTodayList, 'difference')
+
+  // TODO:: random섞은 배열~~
 
   const goListPage = (level) => {
     navigate(`/list/${level}`)
@@ -70,7 +76,7 @@ const Home = () => {
               <Strong>Perro</Strong>
             </div>
             <div>
-              <CardButton>View more ></CardButton>
+              <CardButton onClick={() => navigate(`/today`)}>View more ></CardButton>
             </div>
           </FlexBox>
         </Card>

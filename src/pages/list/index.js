@@ -1,4 +1,3 @@
-
 import FlexBox from '../../components/common/FlexBox'
 import {useEffect, useState} from 'react'
 import useWord, {wordListFilterState} from './store/useWord'
@@ -9,6 +8,7 @@ import WordItem from './WordItem'
 import {wordLevels} from '../../database/words'
 import {useRecoilState} from 'recoil'
 import {useParams} from 'react-router-dom'
+import Title from '../../components/common/Title'
 
 const Select = styled.select`
   padding: 1rem;
@@ -37,7 +37,6 @@ const List = () => {
   const [words, setWords, filteredWordList] = useWord()
   const [filter, setFilter] = useRecoilState(wordListFilterState)
 
-
   // ** pagination states
   const [limit, setLimit] = useState(10) // 몇 개씩 보여줄지
   const [page, setPage] = useState(1) // 현재 페이지
@@ -58,6 +57,7 @@ const List = () => {
 
   return (
     <>
+      <Title>Study by Level</Title>
       <Row>
         <FlexBox justify="space-between">
           <label>

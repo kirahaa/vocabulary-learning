@@ -3,6 +3,8 @@ import MainLayout from '../components/layout/MainLayout'
 import Home from '../pages/home'
 import User from '../pages/user'
 import List from '../pages/list'
+import Today from '../pages/list/today'
+import Quiz from '../pages/quiz'
 
 const Router = () => {
   return (
@@ -10,7 +12,9 @@ const Router = () => {
       <Route path="/" element={<MainLayout />}>
         <Route path="/" element={<Home />}></Route>
         <Route path="/user" element={<User />}></Route>
+        <Route path="/today" element={<Today />}></Route>
         <Route path="/list/:id" element={<List />}></Route>
+        <Route path="/quiz" element={<Quiz />}></Route>
       </Route>
     </Routes>
   )
