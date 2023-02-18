@@ -1,16 +1,16 @@
 export const users = [
   {
     id: 0,
+    name: 'hayeong',
     loginId: 'hayeong',
-    password: '123123123',
-    phoneNumber: '010-6213-6178',
+    password: '123',
     profileImg: require('../assets/images/user--0.jpg')
   },
   {
     id: 1,
+    name: 'onew',
     loginId: 'onew',
-    password: '123123123',
-    phoneNumber: '010-1234-1234',
+    password: '123',
     profileImg: require('../assets/images/user--1.jpg')
   }
 ]

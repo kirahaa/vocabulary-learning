@@ -13,4 +13,12 @@ const StyledImage = styled.img`
 };
 `
 
+export const Image = styled.img`
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+`
+
 export default StyledImage

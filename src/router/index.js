@@ -5,6 +5,7 @@ import User from '../pages/user'
 import List from '../pages/list'
 import Today from '../pages/list/today'
 import Quiz from '../pages/quiz'
+import Login from "../pages/auth"
 
 const Router = () => {
   return (
@@ -16,6 +17,7 @@ const Router = () => {
         <Route path="/list/:id" element={<List />}></Route>
         <Route path="/quiz" element={<Quiz />}></Route>
       </Route>
+      <Route path="/login" element={<Login />}></Route>
     </Routes>
   )
 }
