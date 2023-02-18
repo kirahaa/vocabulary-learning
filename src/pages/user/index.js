@@ -6,8 +6,9 @@ import Button from '../../components/common/Button'
 import Row from '../../components/common/Row'
 import {FileText} from 'react-feather'
 import Card from '../../components/common/Card'
-import {useRecoilValue} from 'recoil'
+import {useRecoilState, useRecoilValue} from 'recoil'
 import {wordListNumStates} from '../list/store/useWord'
+import {currentUserState} from "../auth/store/useAuth";
 
 const ImageWrap = styled.div`
   position: relative;
@@ -36,14 +37,23 @@ const User = () => {
   // ** recoil states
   const {totalNum, totalCompletedNum, totalUnCompletedNum, percentCompleted} = useRecoilValue(wordListNumStates)
 
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
+
+  const handleLogout = () => {
+    if (window.confirm('로그아웃 하시겠습니까?')) {
+      setCurrentUser(null)
+    }
+  }
+
   return (
     <>
       <FlexBox justify="center">
         <ImageWrap>
-          <StyledImage src={require('../../assets/images/user--0.jpg')} radius/>
+          <StyledImage src={currentUser.profileImg} radius="true"/>
         </ImageWrap>
       </FlexBox>
-      <UserName>Haley</UserName>
+      <UserName>{currentUser.name}</UserName>
+      <Button bgColor="sky" onClick={handleLogout}>Logout</Button>
       <Row>
         <p>Total Progress: {totalCompletedNum} / {totalNum} words</p>
         <ProgressBar percent={percentCompleted}/>

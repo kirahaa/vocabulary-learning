@@ -5,8 +5,9 @@ import StyledButton from "../../components/common/Button"
 import {useForm} from "react-hook-form"
 import {useRef, useState} from "react"
 import FlexBox from "../../components/common/FlexBox"
-import useAuth from "./store/useAuth";
+import useAuth, {currentUserState} from "./store/useAuth"
 import {useNavigate} from "react-router-dom"
+import {useRecoilState} from "recoil"
 
 const Wrap = styled.div`
   position: relative;
@@ -61,6 +62,7 @@ const Login = () => {
   const {register, handleSubmit, reset, formState: {errors}, clearErrors} = useForm()
 
   const [users, setUsers] = useAuth()
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
 
   const navigate = useNavigate()
   const fileInputRef = useRef()
@@ -101,10 +103,10 @@ const Login = () => {
       }
     } else {
       // sign in
-      let currentUser = users.find(user => user.loginId === data.loginId && user.password === data.password)
+      let presentUser = users.find(user => user.loginId === data.loginId && user.password === data.password)
 
-      if (currentUser) {
-        localStorage.setItem('user', JSON.stringify(currentUser))
+      if (presentUser) {
+        setCurrentUser(presentUser)
         navigate('/')
       } else {
         alert('입력하신 정보와 회원정보가 일치하지 않습니다.')
