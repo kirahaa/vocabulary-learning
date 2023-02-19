@@ -6,8 +6,9 @@ import Row from '../../components/common/Row'
 import StyledCard from '../../components/common/Card'
 import {useNavigate} from 'react-router-dom'
 import {wordLevels} from '../../database/words'
-import {randomWordListState, wordListNumStates} from '../list/store/useWord'
+import {wordListNumStates} from '../list/store/useWord'
 import {useRecoilValue} from 'recoil'
+import useAuth from "../auth/store/useAuth";
 
 const Title = styled.h1`
   font-weight: bold;
@@ -48,12 +49,7 @@ const Home = () => {
 
   // ** recoil
   const {basicNum, interNum, advanNum} = useRecoilValue(wordListNumStates)
-  const {randomTodayList, notTodayList} = useRecoilValue(randomWordListState)
-
-  console.log(randomTodayList, 'random')
-  console.log(notTodayList, 'difference')
-
-  // TODO:: random섞은 배열~~
+  const {currentUser} = useAuth()
 
   const goListPage = (level) => {
     navigate(`/list/${level}`)
@@ -61,7 +57,7 @@ const Home = () => {
 
   return (
     <>
-      <Title>Good Evening, User!</Title>
+      <Title>Good Evening, {currentUser.name}!</Title>
       <Row>
         <p>Your Progress Today: 5/10 words</p>
         <ProgressBar />

@@ -5,9 +5,8 @@ import StyledButton from "../../components/common/Button"
 import {useForm} from "react-hook-form"
 import {useRef, useState} from "react"
 import FlexBox from "../../components/common/FlexBox"
-import useAuth, {currentUserState} from "./store/useAuth"
+import useAuth from "./store/useAuth"
 import {useNavigate} from "react-router-dom"
-import {useRecoilState} from "recoil"
 
 const Wrap = styled.div`
   position: relative;
@@ -61,8 +60,7 @@ const AlertMsg = styled.p`
 const Login = () => {
   const {register, handleSubmit, reset, formState: {errors}, clearErrors} = useForm()
 
-  const [users, setUsers] = useAuth()
-  const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
+  const {users, setUsers, currentUser, setCurrentUser} = useAuth()
 
   const navigate = useNavigate()
   const fileInputRef = useRef()
@@ -72,6 +70,7 @@ const Login = () => {
   const handleAccountBtn = () => {
     setNewAccount(!newAccount)
     clearErrors()
+    reset()
   }
 
   const handleFileChange = (e) => {
@@ -87,7 +86,7 @@ const Login = () => {
         alert('이미 존재하는 아이디입니다.')
         reset()
       } else {
-        if (file.includes('blob')) {
+        if (!file.includes('blob')) {
           alert('파일을 등록해주세요.')
         } else {
           setUsers(() => {
@@ -138,9 +137,9 @@ const Login = () => {
             <div>
               <StyledInput
                 type="text"
-                placeholder="Username"
-                {...register("username", {required: newAccount ? true : false })}/>
-              {errors.username?.type === 'required' && <AlertMsg role="alert">Username is required</AlertMsg>}
+                placeholder="Name"
+                {...register("name", {required: newAccount ? true : false })}/>
+              {errors.name?.type === 'required' && <AlertMsg role="alert">Name is required</AlertMsg>}
             </div>
           </FlexBox>
         ) : null}
