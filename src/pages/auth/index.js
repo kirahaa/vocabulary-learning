@@ -5,8 +5,9 @@ import StyledButton from "../../components/common/Button"
 import {useForm} from "react-hook-form"
 import {useRef, useState} from "react"
 import FlexBox from "../../components/common/FlexBox"
-import useAuth from "./store/useAuth"
+import useUser from "./store/useUser"
 import {useNavigate} from "react-router-dom"
+import {words} from "../../database/words"
 
 const Wrap = styled.div`
   position: relative;
@@ -60,7 +61,7 @@ const AlertMsg = styled.p`
 const Login = () => {
   const {register, handleSubmit, reset, formState: {errors}, clearErrors} = useForm()
 
-  const {users, setUsers, currentUser, setCurrentUser} = useAuth()
+  const {users, setUsers, currentUser, setCurrentUser} = useUser()
 
   const navigate = useNavigate()
   const fileInputRef = useRef()
@@ -92,7 +93,8 @@ const Login = () => {
           setUsers(() => {
             return [...users, {
               ...data,
-              profileImg: file
+              profileImg: file,
+              words: words
             }]
           })
           setNewAccount(false)

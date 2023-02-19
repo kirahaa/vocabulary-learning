@@ -24,7 +24,7 @@ export const currentUserState = atom({
   effects: [localStorageEffect('user')]
 })
 
-const useAuth = () => {
+const useUser = () => {
   const [users, setUsers] = useRecoilState(usersState)
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
 
@@ -36,4 +36,4 @@ const useAuth = () => {
   }
 }
 
-export default useAuth
+export default useUser

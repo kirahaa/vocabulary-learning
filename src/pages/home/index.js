@@ -8,7 +8,7 @@ import {useNavigate} from 'react-router-dom'
 import {wordLevels} from '../../database/words'
 import {wordListNumStates} from '../list/store/useWord'
 import {useRecoilValue} from 'recoil'
-import useAuth from "../auth/store/useAuth";
+import useUser from "../auth/store/useUser";
 
 const Title = styled.h1`
   font-weight: bold;
@@ -49,7 +49,7 @@ const Home = () => {
 
   // ** recoil
   const {basicNum, interNum, advanNum} = useRecoilValue(wordListNumStates)
-  const {currentUser} = useAuth()
+  const {currentUser} = useUser()
 
   const goListPage = (level) => {
     navigate(`/list/${level}`)

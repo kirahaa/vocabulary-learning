@@ -7,7 +7,7 @@ import Today from '../pages/list/today'
 import Quiz from '../pages/quiz'
 import Login from "../pages/auth"
 import {useRecoilValue} from "recoil"
-import {currentUserState} from "../pages/auth/store/useAuth"
+import {currentUserState} from "../pages/auth/store/useUser"
 import {useEffect} from "react"
 
 const Router = () => {
