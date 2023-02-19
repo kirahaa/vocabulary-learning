@@ -26,11 +26,14 @@ export const currentUserState = atom({
 
 const useAuth = () => {
   const [users, setUsers] = useRecoilState(usersState)
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
 
-  return [
+  return {
     users,
-    setUsers
-  ]
+    setUsers,
+    currentUser,
+    setCurrentUser
+  }
 }
 
 export default useAuth
