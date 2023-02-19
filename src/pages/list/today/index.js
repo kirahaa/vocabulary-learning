@@ -37,35 +37,35 @@ const ButtonGroup = styled.div`
   color: ${props => props.theme.text.gray};
 `
 
+const wordType = {
+  type1: "en",
+  type2: "ko"
+}
 
 const Today = () => {
   const navigate = useNavigate()
-  const {randomTodayList} = useRecoilValue(randomWordListState)
-  const [enBtn, setEnBtn] = useState(false)
+  const randomTodayList = useRecoilValue(randomWordListState)
+  const [enBtn, setEnBtn] = useState(true) // 기본 모드
   const [koBtn, setKoBtn] = useState(false)
-  const [wordType, setWordType] = useState(null)
+  const [currentWordType, setCurrentWordType] = useState(wordType.type1)
 
   const handleToggle = (type) => {
-    if (type === "en") {
+    if (type === wordType.type1) {
       setEnBtn(!enBtn)
-      setWordType("en")
-    } else if (type === "ko"){
+      setKoBtn(false)
+      setCurrentWordType(type)
+    } else if (type === wordType.type2){
       setKoBtn(!koBtn)
-      setWordType("ko")
+      setEnBtn(false)
+      setCurrentWordType(type)
     }
   }
 
   useEffect(() => {
-    if (enBtn && koBtn) {
-      if (wordType === "en") {
-        setKoBtn(false)
-      } else if (wordType === "ko") {
-        setEnBtn(false)
-      }
-    } else if (!enBtn && !koBtn) {
-      setWordType(null)
+    if (!enBtn && !koBtn) {
+      setCurrentWordType(null)
     }
-  }, [enBtn, koBtn, wordType])
+  }, [enBtn, koBtn, currentWordType])
 
   return (
     <>
@@ -81,7 +81,7 @@ const Today = () => {
       <FlexBox direction="column" gap="2">
         {
           randomTodayList.map(word => (
-            <WordItem key={`${word.en}-today`} word={word} type={wordType}/>
+            <WordItem key={`${word.en}-today`} word={word} type={currentWordType}/>
           ))
         }
       </FlexBox>

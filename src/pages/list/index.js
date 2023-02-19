@@ -9,6 +9,7 @@ import {wordLevels} from '../../database/words'
 import {useRecoilState} from 'recoil'
 import {useParams} from 'react-router-dom'
 import Title from '../../components/common/Title'
+import useUser from "../auth/store/useUser";
 
 const Select = styled.select`
   padding: 1rem;
@@ -34,7 +35,8 @@ const List = () => {
   const params = useParams()
 
   // ** recoil states
-  const [words, setWords, filteredWordList] = useWord()
+  const {filteredWordList} = useWord()
+  const {currentUser, setCurrentUser} = useUser()
   const [filter, setFilter] = useRecoilState(wordListFilterState)
 
   // ** pagination states
@@ -43,10 +45,14 @@ const List = () => {
   const offset = (page - 1) * limit // 몇 번째꺼 까지
 
   const handleCheck = (id) => {
-    let newWords = words.map(word => {
-      return word.id === id ? {...word, isCompleted: word.isCompleted ? false : true } : word
+    setCurrentUser({
+      ...currentUser,
+      words: currentUser.words.map(word => {
+        return word.id === id
+        ? {...word, isCompleted: word.isCompleted ? false : true}
+          : word
+      })
     })
-    setWords(newWords)
   }
 
   useEffect(() => {

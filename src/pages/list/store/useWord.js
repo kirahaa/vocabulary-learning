@@ -1,10 +1,6 @@
-import {atom, selector, useRecoilState, useRecoilValue} from 'recoil'
-import {wordLevels, words} from '../../../database/words'
-
-const wordListState = atom({
-  key: 'wordListState',
-  default: words
-})
+import {atom, selector, useRecoilValue} from 'recoil'
+import {wordLevels} from '../../../database/words'
+import {currentUserState} from "../../auth/store/useUser"
 
 export const wordListFilterState = atom({
   key: 'wordListFilterState',
@@ -14,7 +10,8 @@ export const wordListFilterState = atom({
 export const wordListNumStates = selector({
   key: 'wordListNumStates',
   get: ({get}) => {
-    const list = get(wordListState)
+    const user = get(currentUserState)
+    const list = user.words
     const totalNum = list.length;
     const totalCompletedNum = list.filter((item) => item.isCompleted).length
     const totalUnCompletedNum = totalNum - totalCompletedNum
@@ -39,25 +36,22 @@ export const wordListNumStates = selector({
 export const randomWordListState = selector({
   key: 'randomWordListState',
   get: ({get}) => {
-    const list = get(wordListState)
+    const user = get(currentUserState)
+    const list = user.words
     const unCompletedList = list.filter((item) => !item.isCompleted)
     const randomTodayList = unCompletedList.sort(() => Math.random() - 0.5).slice(0, 10)
     const notTodayList = unCompletedList.filter(item => !randomTodayList.includes(item))
 
-    return {
-      unCompletedList,
-      randomTodayList,
-      notTodayList
-    }
+    return randomTodayList
   }
 })
-
 
 const filteredWordListState = selector({
   key: 'filteredWordListState',
   get: ({get}) => {
     const filter = get(wordListFilterState)
-    const list = get(wordListState)
+    const user = get(currentUserState)
+    const list = user.words
 
     switch (filter) {
       case wordLevels.basic:
@@ -73,14 +67,11 @@ const filteredWordListState = selector({
 })
 
 const useWord = () => {
-  const [words, setWords] = useRecoilState(wordListState)
   const filteredWordList = useRecoilValue(filteredWordListState)
 
-  return [
-    words,
-    setWords,
+  return {
     filteredWordList
-  ]
+  }
 }
 
 export default useWord

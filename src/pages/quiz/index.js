@@ -29,7 +29,7 @@ const Button = styled(StyledButton)`
 `
 
 const Quiz = () => {
-  const {randomTodayList} = useRecoilValue(randomWordListState)
+  const randomTodayList = useRecoilValue(randomWordListState)
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const handleAnswerCheck = () => {

@@ -6,7 +6,7 @@ import Row from '../../components/common/Row'
 import StyledCard from '../../components/common/Card'
 import {useNavigate} from 'react-router-dom'
 import {wordLevels} from '../../database/words'
-import {wordListNumStates} from '../list/store/useWord'
+import {randomWordListState, wordListNumStates} from '../list/store/useWord'
 import {useRecoilValue} from 'recoil'
 import useUser from "../auth/store/useUser";
 
@@ -48,8 +48,10 @@ const Home = () => {
   const navigate = useNavigate()
 
   // ** recoil
-  const {basicNum, interNum, advanNum} = useRecoilValue(wordListNumStates)
   const {currentUser} = useUser()
+  const {basicNum, interNum, advanNum} = useRecoilValue(wordListNumStates)
+  const randomTodayList = useRecoilValue(randomWordListState)
+  const todayWord = randomTodayList[0].en
 
   const goListPage = (level) => {
     navigate(`/list/${level}`)
@@ -69,7 +71,7 @@ const Home = () => {
           <FlexBox justify="space-between" align="center">
             <div>
               <CardTitle>Word of the day</CardTitle>
-              <Strong>Perro</Strong>
+              <Strong>{todayWord}</Strong>
             </div>
             <div>
               <CardButton onClick={() => navigate(`/today`)}>View more ></CardButton>
