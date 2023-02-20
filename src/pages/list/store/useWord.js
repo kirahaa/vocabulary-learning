@@ -1,10 +1,20 @@
 import {atom, selector, useRecoilValue} from 'recoil'
-import {wordLevels} from '../../../database/words'
+import {wordLevels, words} from '../../../database/words'
 import {currentUserState} from "../../auth/store/useUser"
+
+const wordListState = atom({
+  key: 'wordListState',
+  default: words
+})
 
 export const wordListFilterState = atom({
   key: 'wordListFilterState',
   default: 'all',
+})
+
+export const currentQuizWordState = atom({
+  key: 'currentQuizWordState',
+  default: 0
 })
 
 export const wordListNumStates = selector({
@@ -33,16 +43,35 @@ export const wordListNumStates = selector({
   }
 })
 
-export const randomWordListState = selector({
-  key: 'randomWordListState',
+export const randomTodayListState = selector({
+  key: 'randomTodayListState',
   get: ({get}) => {
-    const user = get(currentUserState)
-    const list = user.words
-    const unCompletedList = list.filter((item) => !item.isCompleted)
-    const randomTodayList = unCompletedList.sort(() => Math.random() - 0.5).slice(0, 10)
-    const notTodayList = unCompletedList.filter(item => !randomTodayList.includes(item))
+    const words = get(wordListState)
+    const randomTodayList = [...words].sort(() => Math.random() - 0.5).slice(0, 10)
 
     return randomTodayList
+  }
+})
+
+export const randomNotTodayListState = selector({
+  key: 'randomNotTodayListState',
+  get: ({get}) => {
+    const currentIndex = get(currentQuizWordState)
+    const words = get(wordListState)
+    const todayList = get(randomTodayListState)
+    const notTodayList = [...words].sort(() => Math.random() - 0.5).filter(word => !todayList.includes(word)).slice(0, 2)
+    const currentWord = todayList[currentIndex]
+    const randomOptions = notTodayList.concat(currentWord)
+
+    if (currentIndex > 9) { // 10개까지
+      return null
+    } else {
+      return randomOptions
+    }
+  },
+  set: ({get, set}, newValue) => {
+    const todayList = get(randomTodayListState)
+    // TODO:: todayList 업데이트!
   }
 })
 

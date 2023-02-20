@@ -1,11 +1,14 @@
-import {useRecoilValue} from 'recoil'
-import {randomWordListState} from '../list/store/useWord'
+import {useRecoilState, useRecoilValue} from 'recoil'
+import {
+  currentQuizWordState,
+  randomNotTodayListState,
+  randomTodayListState
+} from '../list/store/useWord'
 import StyledCard from '../../components/common/Card'
 import styled from 'styled-components'
 import Row from '../../components/common/Row'
 import FlexBox from '../../components/common/FlexBox'
 import Title from '../../components/common/Title'
-import {useEffect, useState} from 'react'
 import WordItem from '../list/WordItem'
 import StyledButton from '../../components/common/Button'
 import useUser from "../auth/store/useUser"
@@ -31,18 +34,24 @@ const Button = styled(StyledButton)`
 
 const Quiz = () => {
   // ** recoil
-  const randomTodayList = useRecoilValue(randomWordListState)
-  const {currentUser, setCurrentUser} = useUser()
+  const randomTodayList = useRecoilValue(randomTodayListState)
+  const [currentIndex, setCurrentIndex] = useRecoilState(currentQuizWordState)
+  const randomOptions = useRecoilValue(randomNotTodayListState)
 
-  // ** states
-  const [currentIndex, setCurrentIndex] = useState(0)
+  // const {currentUser, setCurrentUser} = useUser()
 
-  const handleAnswerCheck = () => {
+  const handleAnswerCheck = (id) => {
+    let currentWord = randomTodayList[currentIndex].id
+
+    randomTodayList.map(item => {
+      // TODO:: 만약에 정답이면, todayList의 해당 요소에 corrent: true
+    })
+
     setCurrentIndex((currentIndex) => (currentIndex + 1))
   }
 
   const handleWordCheck = (id) => {
-    // TODO:: todayList 핸들링~
+    console.log(id, 'id')
   }
 
   const Result = () => {
@@ -67,20 +76,20 @@ const Quiz = () => {
     }
   }
 
-  useEffect(() => {
-    setCurrentUser({
-      ...currentUser,
-      todayWordList: randomTodayList
-    })
-  }, [])
+  // useEffect(() => {
+  //   setCurrentUser({
+  //     ...currentUser,
+  //     todayWordList: randomTodayList
+  //   })
+  // }, [])
 
   return (
     <>
       <Title>Today's Quiz</Title>
-      {currentUser.todayWordList.length > 0 ? (
+      {randomTodayList.length > 0 ? (
         <>
           {
-            currentUser.todayWordList.map((item, id) => (
+            randomTodayList.map((item, id) => (
               <Content key={`quiz-item-${id}`} currentIndex={id === currentIndex}>
                 <Row>
                   <Card bgColor="primary">
@@ -89,9 +98,9 @@ const Quiz = () => {
                   </Card>
                 </Row>
                 <FlexBox direction="column" gap="2">
-                  <Card border onClick={() => handleAnswerCheck()}>{item.ko}</Card>
-                  <Card border onClick={() => handleAnswerCheck()}>test</Card>
-                  <Card border onClick={() => handleAnswerCheck()}>test</Card>
+                  {randomOptions ? randomOptions.map(item => (
+                    <Card key={item.en} border onClick={() => handleAnswerCheck(item.id)}>{item.ko}</Card>
+                  )) : null}
                 </FlexBox>
               </Content>
             ))

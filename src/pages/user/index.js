@@ -6,9 +6,9 @@ import Button from '../../components/common/Button'
 import Row from '../../components/common/Row'
 import {FileText} from 'react-feather'
 import Card from '../../components/common/Card'
-import {useRecoilState, useRecoilValue} from 'recoil'
+import {useRecoilValue} from 'recoil'
 import {wordListNumStates} from '../list/store/useWord'
-import useUser, {currentUserState} from "../auth/store/useUser"
+import useUser from "../auth/store/useUser"
 
 const ImageWrap = styled.div`
   position: relative;
@@ -37,10 +37,18 @@ const User = () => {
   // ** recoil states
   const {totalNum, totalCompletedNum, totalUnCompletedNum, percentCompleted} = useRecoilValue(wordListNumStates)
 
-  const {currentUser, setCurrentUser} = useUser()
+  const {users, setUsers, currentUser, setCurrentUser} = useUser()
 
   const handleLogout = () => {
     if (window.confirm('로그아웃 하시겠습니까?')) {
+      // users 업데이트
+      setUsers(() => {
+        return users.map(user => {
+          return user.id === currentUser.id ? currentUser : user
+        })
+      })
+
+      // currentUser 초기화
       setCurrentUser(null)
     }
   }

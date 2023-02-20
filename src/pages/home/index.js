@@ -6,9 +6,9 @@ import Row from '../../components/common/Row'
 import StyledCard from '../../components/common/Card'
 import {useNavigate} from 'react-router-dom'
 import {wordLevels} from '../../database/words'
-import {randomWordListState, wordListNumStates} from '../list/store/useWord'
+import {randomTodayListState, wordListNumStates} from '../list/store/useWord'
 import {useRecoilValue} from 'recoil'
-import useUser from "../auth/store/useUser";
+import useUser from "../auth/store/useUser"
 
 const Title = styled.h1`
   font-weight: bold;
@@ -50,7 +50,7 @@ const Home = () => {
   // ** recoil
   const {currentUser} = useUser()
   const {basicNum, interNum, advanNum} = useRecoilValue(wordListNumStates)
-  const randomTodayList = useRecoilValue(randomWordListState)
+  const randomTodayList = useRecoilValue(randomTodayListState)
   const todayWord = randomTodayList[0].en
 
   const goListPage = (level) => {
