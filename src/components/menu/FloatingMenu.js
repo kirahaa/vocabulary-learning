@@ -9,6 +9,7 @@ const Floating = styled.button`
   background-color: ${props => props.theme.red};
   border-radius: 50%;
   line-height: 0;
+  z-index: 100;
 
   @media screen and (max-width: 540px) {
     right: 4rem;
