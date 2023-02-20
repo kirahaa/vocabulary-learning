@@ -1,9 +1,13 @@
 import {atom, useRecoilState, useRecoilValue} from "recoil"
 import {users} from "../../../database/users"
+import {recoilPersist} from 'recoil-persist'
+
+const {persistAtom} = recoilPersist()
 
 const usersState = atom({
   key: 'usersState',
-  default: users
+  default: users,
+  effects_UNSTABLE: [persistAtom]
 })
 
 const localStorageEffect = (key) => ({setSelf, onSet}) => {
@@ -11,7 +15,7 @@ const localStorageEffect = (key) => ({setSelf, onSet}) => {
   if (savedValue !== null) {
     setSelf(JSON.parse(savedValue))
   }
-  onSet((newValue, isReset) => {
+  onSet((newValue, _, isReset) => {
     isReset
       ? localStorage.removeItem(key)
       : localStorage.setItem(key, JSON.stringify(newValue))
