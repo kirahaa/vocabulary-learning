@@ -43,8 +43,13 @@ const wordType = {
 }
 
 const Today = () => {
+  // ** hooks
   const navigate = useNavigate()
+
+  // ** recoil
   const randomTodayList = useRecoilValue(randomTodayListState)
+
+  // ** states
   const [enBtn, setEnBtn] = useState(true) // 기본 모드
   const [koBtn, setKoBtn] = useState(false)
   const [currentWordType, setCurrentWordType] = useState(wordType.type1)

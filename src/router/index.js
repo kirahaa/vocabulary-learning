@@ -15,7 +15,6 @@ const Router = () => {
   const isLoggedIn = useRecoilValue(currentUserState)
 
   useEffect(() => {
-    console.log(isLoggedIn, 'isLoggedIN')
     if (!isLoggedIn) {
       navigate('/login')
     }

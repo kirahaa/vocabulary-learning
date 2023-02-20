@@ -5,7 +5,7 @@ import {useRef, useState} from "react"
 import {words} from "../database/words"
 
 const useAuth = () => {
-  const {register, handleSubmit, reset, formState: {errors}, clearErrors} = useForm()
+  const {register, handleSubmit, reset, setFocus, formState: {errors}, clearErrors} = useForm()
 
   const {users, setUsers, setCurrentUser} = useUser()
 
@@ -32,6 +32,8 @@ const useAuth = () => {
       if (existedUser) {
         alert('이미 존재하는 아이디입니다.')
         reset()
+        setFocus("name")
+        // FIXME:: setFocus 왜 작동 안할까...
       } else {
         if (!file.includes('blob')) {
           alert('파일을 등록해주세요.')
@@ -46,6 +48,7 @@ const useAuth = () => {
           setNewAccount(false)
           reset()
           alert('회원가입 되었습니다. 이제 로그인 해주세요 :)')
+          setFocus("loginId")
         }
       }
     } else {

@@ -2,12 +2,7 @@ import styled, {css} from "styled-components"
 import StyledImage, {Image} from "../../components/common/Image"
 import StyledInput from "../../components/common/Input"
 import StyledButton from "../../components/common/Button"
-import {useForm} from "react-hook-form"
-import {useRef, useState} from "react"
 import FlexBox from "../../components/common/FlexBox"
-import useUser from "./store/useUser"
-import {useNavigate} from "react-router-dom"
-import {words} from "../../database/words"
 import useAuth from "../../hooks/useAuth"
 
 const Wrap = styled.div`
@@ -76,6 +71,7 @@ const Login = () => {
     <Wrap>
       <Image src={require('../../assets/images/title.png')}/>
       <Form onSubmit={handleSubmit(onSubmit)}>
+        {/* 회원가입 하는 경우, 프로필 사진, 이름 영역 추가 */}
         {newAccount ? (
           <FlexBox justify="space-between" align="center" gap="2">
             <StyledInput

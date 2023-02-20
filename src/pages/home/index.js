@@ -46,12 +46,14 @@ const CardButton = styled(StyledButton)`
 const Home = () => {
   // ** hooks
   const navigate = useNavigate()
+  const {currentUser} = useUser()
 
   // ** recoil
-  const {currentUser} = useUser()
   const {basicNum, interNum, advanNum} = useRecoilValue(wordListNumStates)
   const randomTodayList = useRecoilValue(randomTodayListState)
-  const todayWord = randomTodayList[0].en
+
+  // ** variables
+  const todayWord = randomTodayList[0].en // 첫번째 단어
 
   const goListPage = (level) => {
     navigate(`/list/${level}`)

@@ -34,10 +34,11 @@ const RowTitle = styled.h2`
 `
 
 const User = () => {
+  // ** hook
+  const {users, setUsers, currentUser, setCurrentUser} = useUser()
+
   // ** recoil states
   const {totalNum, totalCompletedNum, totalUnCompletedNum, percentCompleted} = useRecoilValue(wordListNumStates)
-
-  const {users, setUsers, currentUser, setCurrentUser} = useUser()
 
   const handleLogout = () => {
     if (window.confirm('로그아웃 하시겠습니까?')) {
@@ -62,10 +63,12 @@ const User = () => {
       </FlexBox>
       <UserName>{currentUser.name}</UserName>
       <Button bgColor="sky" onClick={handleLogout}>Logout</Button>
+
       <Row>
         <p>Total Progress: {totalCompletedNum} / {totalNum} words</p>
         <ProgressBar percent={percentCompleted}/>
       </Row>
+
       <FlexBox gap="2">
         <Button bgColor="primary">
           <Strong>{totalNum}</Strong>

@@ -31,12 +31,12 @@ const selectOption = [
 ]
 
 const List = () => {
-  // ** hoos
+  // ** hooks
   const params = useParams()
+  const {currentUser, setCurrentUser} = useUser()
+  const {filteredWordList} = useWord()
 
   // ** recoil states
-  const {filteredWordList} = useWord()
-  const {currentUser, setCurrentUser} = useUser()
   const [filter, setFilter] = useRecoilState(wordListFilterState)
 
   // ** pagination states
