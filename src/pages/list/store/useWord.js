@@ -1,6 +1,9 @@
-import {atom, selector, useRecoilValue} from 'recoil'
+import {atom, selector, useRecoilState, useRecoilValue} from 'recoil'
 import {wordLevels, words} from '../../../database/words'
 import {currentUserState} from "../../auth/store/useUser"
+import {recoilPersist} from "recoil-persist"
+
+const {persistAtom} = recoilPersist()
 
 const wordListState = atom({
   key: 'wordListState',
@@ -12,17 +15,44 @@ export const wordListFilterState = atom({
   default: 'all',
 })
 
+// ** 오늘의 단어 리스트 (10개)
+const todayWordListState = atom({
+  key: 'todayWordListState',
+  default: [],
+  effects_UNSTABLE: [persistAtom]
+})
+
+// ** 현재 퀴즈 단어 index
 export const currentQuizWordState = atom({
   key: 'currentQuizWordState',
   default: 0
 })
 
+// ** 오늘의 단어 숫자 데이터들
+// TODO :: 유저 별 단어로 바꿔야 함
+export const todayWordListNumStates = selector({
+  key: 'todayWordListNumStates',
+  get: ({get}) => {
+    const todayList = get(todayWordListState)
+    const todayTotalNum = todayList.length
+    const todayCompletedNum = todayList.filter(item => item.isCompleted).length
+    const todayPercentage = todayTotalNum !== 0 && (todayCompletedNum / todayTotalNum) * 100
+
+    return {
+      todayTotalNum,
+      todayCompletedNum,
+      todayPercentage
+    }
+  }
+})
+
+// ** 단어 리스트 숫자 데이터들
 export const wordListNumStates = selector({
   key: 'wordListNumStates',
   get: ({get}) => {
     const user = get(currentUserState)
     const list = user.words
-    const totalNum = list.length;
+    const totalNum = list.length
     const totalCompletedNum = list.filter((item) => item.isCompleted).length
     const totalUnCompletedNum = totalNum - totalCompletedNum
     const percentCompleted = totalNum === 0 ? 0 : (totalCompletedNum / totalNum) * 100
@@ -43,38 +73,26 @@ export const wordListNumStates = selector({
   }
 })
 
-export const randomTodayListState = selector({
-  key: 'randomTodayListState',
-  get: ({get}) => {
-    const words = get(wordListState)
-    const randomTodayList = [...words].sort(() => Math.random() - 0.5).slice(0, 10)
-
-    return randomTodayList
-  }
-})
-
+// ** 퀴즈에서 쓸 랜덤 선택지
 export const randomNotTodayListState = selector({
   key: 'randomNotTodayListState',
   get: ({get}) => {
     const currentIndex = get(currentQuizWordState)
     const words = get(wordListState)
-    const todayList = get(randomTodayListState)
+    const todayList = get(todayWordListState)
     const notTodayList = [...words].sort(() => Math.random() - 0.5).filter(word => !todayList.includes(word)).slice(0, 2)
     const currentWord = todayList[currentIndex]
-    const randomOptions = notTodayList.concat(currentWord)
+    const randomOptions = notTodayList.concat(currentWord).sort(() => Math.random() - 0.5)
 
     if (currentIndex > 9) { // 10개까지
       return null
     } else {
       return randomOptions
     }
-  },
-  set: ({get, set}, newValue) => {
-    const todayList = get(randomTodayListState)
-    // TODO:: todayList 업데이트!
   }
 })
 
+// ** level별로 필터링 된 단어 리스트
 const filteredWordListState = selector({
   key: 'filteredWordListState',
   get: ({get}) => {
@@ -96,9 +114,15 @@ const filteredWordListState = selector({
 })
 
 const useWord = () => {
+  const [words, setWords] = useRecoilState(wordListState)
+  const [todayList, setTodayList] = useRecoilState(todayWordListState)
   const filteredWordList = useRecoilValue(filteredWordListState)
 
   return {
+    words,
+    setWords,
+    todayList,
+    setTodayList,
     filteredWordList
   }
 }

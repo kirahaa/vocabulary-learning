@@ -45,7 +45,7 @@ const WordKo = styled.p`
   `}
 `
 
-const WordItem = ({word, handleCheck, type}) => {
+const WordItem = ({word, handleCheck, type, showCheck}) => {
   return (
     <Card key={word.id} bgColor="dark" border={word.level}>
       <FlexBox justify="space-between" align="center">
@@ -53,9 +53,9 @@ const WordItem = ({word, handleCheck, type}) => {
           <WordEn type={type}>{word.en}</WordEn>
           <WordKo type={type}>{word.ko}</WordKo>
         </WordBox>
-        {handleCheck ?
+        {showCheck ?
           (
-            <Button bgColor={word.isCompleted ? 'greenOP' : 'gray'} size="small" icon onClick={() => handleCheck(word.id)}>
+            <Button bgColor={word.isCompleted ? 'greenOP' : 'gray'} size="small" icon onClick={handleCheck}>
               <Check />
             </Button>
           )

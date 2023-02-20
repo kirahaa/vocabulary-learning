@@ -6,9 +6,10 @@ import Row from '../../components/common/Row'
 import StyledCard from '../../components/common/Card'
 import {useNavigate} from 'react-router-dom'
 import {wordLevels} from '../../database/words'
-import {randomTodayListState, wordListNumStates} from '../list/store/useWord'
+import useWord, {todayWordListNumStates, wordListNumStates} from '../list/store/useWord'
 import {useRecoilValue} from 'recoil'
 import useUser from "../auth/store/useUser"
+import {useEffect, useState} from "react"
 
 const Title = styled.h1`
   font-weight: bold;
@@ -47,24 +48,37 @@ const Home = () => {
   // ** hooks
   const navigate = useNavigate()
   const {currentUser} = useUser()
+  const {words, todayList, setTodayList} = useWord()
 
   // ** recoil
   const {basicNum, interNum, advanNum} = useRecoilValue(wordListNumStates)
-  const randomTodayList = useRecoilValue(randomTodayListState)
+  const {todayTotalNum, todayCompletedNum, todayPercentage} = useRecoilValue(todayWordListNumStates)
 
-  // ** variables
-  const todayWord = randomTodayList[0].en // 첫번째 단어
+  // ** states
+  const [todayWord, setTodayWord] = useState('') // 첫번째 단어
 
   const goListPage = (level) => {
     navigate(`/list/${level}`)
   }
 
+  useEffect(() => {
+    if (todayList.length > 0) {
+      setTodayWord(todayList[0].en)
+    }
+  }, [todayList])
+
+  useEffect(() => {
+    if (todayList.length === 0) {
+      setTodayList([...words].sort(() => Math.random() - 0.5).slice(0, 10))
+    }
+  }, [])
+
   return (
     <>
       <Title>Good Evening, {currentUser.name}!</Title>
       <Row>
-        <p>Your Progress Today: 5/10 words</p>
-        <ProgressBar />
+        <p>Your Progress Today: {todayCompletedNum} / {todayTotalNum} words</p>
+        <ProgressBar percent={todayPercentage}/>
       </Row>
 
       <Row>

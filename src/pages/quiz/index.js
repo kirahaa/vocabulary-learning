@@ -1,8 +1,7 @@
 import {useRecoilState, useRecoilValue} from 'recoil'
-import {
+import useWord, {
   currentQuizWordState,
-  randomNotTodayListState,
-  randomTodayListState
+  randomNotTodayListState
 } from '../list/store/useWord'
 import StyledCard from '../../components/common/Card'
 import styled from 'styled-components'
@@ -12,6 +11,8 @@ import Title from '../../components/common/Title'
 import WordItem from '../list/WordItem'
 import StyledButton from '../../components/common/Button'
 import useUser from "../auth/store/useUser"
+import {useEffect} from "react"
+import {useNavigate} from "react-router-dom"
 
 const Card = styled(StyledCard)`
   text-align: center;
@@ -32,49 +33,82 @@ const Button = styled(StyledButton)`
   font-size: 2rem;
 `
 
+const QuizResult = styled(FlexBox)`
+  margin: 0 auto;
+  width: 15rem;
+  height: 15rem;
+  border: 1px solid ${props => props.theme.pink};
+  border-radius: 50%;
+  font-size: 3rem;
+  font-weight: bold;
+`
+
 const Quiz = () => {
+  // ** hook
+  const navigate = useNavigate()
+  const {todayList, setTodayList} = useWord()
+
   // ** recoil
-  const randomTodayList = useRecoilValue(randomTodayListState)
   const [currentIndex, setCurrentIndex] = useRecoilState(currentQuizWordState)
   const randomOptions = useRecoilValue(randomNotTodayListState)
 
   // const {currentUser, setCurrentUser} = useUser()
 
   const handleAnswerCheck = (id) => {
-    let currentWord = randomTodayList[currentIndex].id
-
-    randomTodayList.map(item => {
-      // TODO:: 만약에 정답이면, todayList의 해당 요소에 corrent: true
+    setTodayList(() => {
+      return todayList.map(item => {
+        return item.id === id ? {...item, isCompleted: true} : item
+      })
     })
 
     setCurrentIndex((currentIndex) => (currentIndex + 1))
   }
 
-  const handleWordCheck = (id) => {
-    console.log(id, 'id')
-  }
-
   const Result = () => {
+    const handleRetry = () => {
+      // TODO:: 틀린 단어들만!
+      setCurrentIndex(0)
+    }
+
+    const handleBackToListBtn = () => {
+      navigate('/today')
+    }
+
     if (currentIndex > 9) {
       return (
         <>
           <Row>
-            {/* TODO:: 결과 화면 만들기~!  */}
+            <QuizResult justify="center" align="center">
+              {todayList.filter(item => item.isCompleted).length} / {todayList.length}
+            </QuizResult>
           </Row>
           <FlexBox direction="column" gap="2">
             {
-              randomTodayList.map(item => (
-                <WordItem key={`result-item-${item.id}`} word={item} handleCheck={() => handleWordCheck(item.id)} />
+              todayList.map(item => (
+                <WordItem key={`result-item-${item.id}`} word={item} showCheck={true} />
               ))
             }
           </FlexBox>
           <Row>
-            <Button bgColor="primary">Retry</Button>
+            <FlexBox justify="space-between" gap="2">
+              <Button bgColor="primary" onClick={handleRetry}>Let's try Again</Button>
+              <Button bgColor="secondary" onClick={handleBackToListBtn}>Back to List</Button>
+            </FlexBox>
           </Row>
         </>
       )
     }
   }
+
+  useEffect(() => {
+    console.log(todayList, 'todayList')
+  }, [todayList])
+
+  useEffect(() => {
+    return () => {
+      setCurrentIndex(0) // 인덱스 초기화
+    }
+  }, [])
 
   // useEffect(() => {
   //   setCurrentUser({
@@ -86,10 +120,10 @@ const Quiz = () => {
   return (
     <>
       <Title>Today's Quiz</Title>
-      {randomTodayList.length > 0 ? (
+      {todayList.length > 0 ? (
         <>
           {
-            randomTodayList.map((item, id) => (
+            todayList.map((item, id) => (
               <Content key={`quiz-item-${id}`} currentIndex={id === currentIndex}>
                 <Row>
                   <Card bgColor="primary">

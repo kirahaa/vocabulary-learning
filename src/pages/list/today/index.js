@@ -1,8 +1,7 @@
 import Row from '../../../components/common/Row'
 import FlexBox from '../../../components/common/FlexBox'
-import {useRecoilValue} from 'recoil'
 import WordItem from '../WordItem'
-import {randomTodayListState} from '../store/useWord'
+import useWord from '../store/useWord'
 import Title from '../../../components/common/Title'
 import StyledButton from '../../../components/common/Button'
 import styled from 'styled-components'
@@ -45,9 +44,7 @@ const wordType = {
 const Today = () => {
   // ** hooks
   const navigate = useNavigate()
-
-  // ** recoil
-  const randomTodayList = useRecoilValue(randomTodayListState)
+  const {todayList} = useWord()
 
   // ** states
   const [enBtn, setEnBtn] = useState(true) // 기본 모드
@@ -85,8 +82,8 @@ const Today = () => {
       </Row>
       <FlexBox direction="column" gap="2">
         {
-          randomTodayList.map(word => (
-            <WordItem key={`${word.en}-today`} word={word} type={currentWordType}/>
+          todayList.map(word => (
+            <WordItem key={`${word.en}-today`} word={word} type={currentWordType} showCheck={false}/>
           ))
         }
       </FlexBox>

@@ -94,7 +94,11 @@ const List = () => {
       <FlexBox direction="column" gap="2">
         {
           filteredWordList.slice(offset, offset + limit).map(word => (
-            <WordItem key={word.en} word={word} handleCheck={() => handleCheck(word.id)}/>
+            <WordItem
+              key={word.en}
+              word={word}
+              showCheck={true}
+              handleCheck={() => handleCheck(word.id)}/>
           ))
         }
       </FlexBox>
