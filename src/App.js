@@ -13,7 +13,7 @@ function App() {
   return (
     <RecoilRoot>
       <ThemeProvider theme={{...theme, setTheme}}>
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
           <ScrollTop />
           <Router />
         </BrowserRouter>
