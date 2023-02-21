@@ -9,6 +9,8 @@ import {useNavigate} from 'react-router-dom'
 import {useEffect, useState} from 'react'
 import ButtonGroup from '../../../components/button/ButtonGroup'
 import {wordType} from '../../../database/words'
+import useUser from '../../auth/store/useUser'
+import {todayDate as date} from '../../../utility'
 
 const Button = styled(StyledButton)`
   font-size: 2rem;
@@ -17,7 +19,8 @@ const Button = styled(StyledButton)`
 const Today = () => {
   // ** hooks
   const navigate = useNavigate()
-  const {todayList} = useWord()
+  const {currentUser, setCurrentUser} = useUser()
+  const {todayList, setTodayList} = useWord()
 
   // ** states
   const [enBtn, setEnBtn] = useState(true) // 기본 모드
@@ -36,11 +39,43 @@ const Today = () => {
     }
   }
 
+  function groupBy(objectArray, property) {
+    return objectArray.reduce(function (acc, obj) {
+      let key = obj[property]
+      if (!acc[key]) {
+        acc[key] = []
+      }
+      acc[key].push(obj)
+      return acc
+    }, {})
+  }
+
+  const handleQuizBtn = () => {
+    navigate('/quiz')
+    let groupedList = groupBy(todayList, 'date')
+    // 현재 사용자 history에 추가
+    setCurrentUser({
+      ...currentUser,
+      history: currentUser.history ? {...groupedList, ...currentUser.history} : {...groupedList}
+    })
+  }
+
   useEffect(() => {
     if (!enBtn && !koBtn) {
       setCurrentWordType(null)
     }
   }, [enBtn, koBtn, currentWordType])
+
+  useEffect(() => {
+    if (todayList) {
+      setCurrentUser({
+        ...currentUser
+      })
+      setTodayList(
+        todayList.map(item => item ? {...item, date: date} : item)
+      )
+    }
+  }, [])
 
   return (
     <>
@@ -58,7 +93,7 @@ const Today = () => {
         }
       </FlexBox>
       <Row>
-        <Button bgColor="primary" onClick={() => navigate('/quiz')}>Let's take a quiz!</Button>
+        <Button bgColor="primary" onClick={handleQuizBtn}>Let's take a quiz!</Button>
       </Row>
     </>
   )

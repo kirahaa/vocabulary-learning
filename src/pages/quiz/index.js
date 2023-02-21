@@ -1,5 +1,5 @@
 import {useRecoilState, useRecoilValue} from 'recoil'
-import useWord, {
+import {
   currentQuizWordState,
   randomNotTodayListState
 } from '../list/store/useWord'
@@ -10,6 +10,8 @@ import FlexBox from '../../components/common/FlexBox'
 import Title from '../../components/common/Title'
 import {useEffect, useState} from 'react'
 import Result from './Result'
+import useUser from '../auth/store/useUser'
+import {todayDate as date} from '../../utility'
 
 const Card = styled(StyledCard)`
   text-align: center;
@@ -28,29 +30,36 @@ const Content = styled.div`
 
 const Quiz = () => {
   // ** hook
-  const {todayList, setTodayList} = useWord()
+  const {currentUser, setCurrentUser} = useUser()
 
   // ** recoil
   const [currentIndex, setCurrentIndex] = useRecoilState(currentQuizWordState)
   const randomOptions = useRecoilValue(randomNotTodayListState)
 
   // ** state
+  const [list, setList] = useState(null)
   const [done, setDone] = useState(false)
 
-  // const {currentUser, setCurrentUser} = useUser()
+  // ** variables
+  const ok = Object.keys(currentUser.history)[0] === date
 
   const handleAnswerCheck = (id) => {
-    setTodayList(() => {
-      return todayList.map(item => {
-        return item.id === id ? {...item, isCompleted: true} : item
-      })
+    let currentList = list.map(item => {
+      return item.id === id ? {...item, isCompleted: true} : item
     })
-
+    setList(currentList)
+    setCurrentUser({
+      ...currentUser,
+      history: {
+        ...currentUser.history,
+        [date]: currentList
+      }
+    })
     setCurrentIndex((currentIndex) => (currentIndex + 1))
   }
 
   useEffect(() => {
-    if (currentIndex === todayList.length) {
+    if (list && currentIndex === list.length) {
       setDone(true)
     } else {
       setDone(false)
@@ -58,25 +67,21 @@ const Quiz = () => {
   }, [currentIndex])
 
   useEffect(() => {
+    if (ok) {
+      setList(currentUser.history[date].map(item => item))
+    }
     return () => {
       setCurrentIndex(0) // 인덱스 초기화
     }
   }, [])
 
-  // useEffect(() => {
-  //   setCurrentUser({
-  //     ...currentUser,
-  //     todayWordList: randomTodayList
-  //   })
-  // }, [])
-
   return (
     <>
       <Title>Today's Quiz</Title>
-      {todayList.length > 0 ? (
+      {list ? (
         <>
           {
-            todayList.map((item, id) => (
+            list.map((item, id) => (
               <Content key={`quiz-item-${id}`} currentIndex={id === currentIndex}>
                 <Row>
                   <Card bgColor="primary">
@@ -95,7 +100,7 @@ const Quiz = () => {
           {/* 결과 */}
           <Result
             setCurrentIndex={setCurrentIndex}
-            todayList={todayList}
+            todayList={list}
             done={done}
           />
         </>

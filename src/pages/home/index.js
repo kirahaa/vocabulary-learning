@@ -10,6 +10,7 @@ import useWord, {todayWordListNumStates, wordListNumStates} from '../list/store/
 import {useRecoilValue} from 'recoil'
 import useUser from "../auth/store/useUser"
 import {useEffect, useState} from "react"
+import {todayDate} from '../../utility'
 
 const Title = styled.h1`
   font-weight: bold;
@@ -68,8 +69,13 @@ const Home = () => {
   }, [todayList])
 
   useEffect(() => {
-    if (todayList.length === 0) {
-      setTodayList([...words].sort(() => Math.random() - 0.5).slice(0, 10))
+    // 랜덤 today list 생성
+    if (currentUser.history) {
+      setTodayList(currentUser.history[todayDate])
+    } else {
+      if (todayList.length === 0) {
+        setTodayList([...words].sort(() => Math.random() - 0.5).slice(0, 10))
+      }
     }
   }, [])
 
