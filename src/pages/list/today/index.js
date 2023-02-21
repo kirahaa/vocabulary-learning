@@ -3,43 +3,16 @@ import FlexBox from '../../../components/common/FlexBox'
 import WordItem from '../WordItem'
 import useWord from '../store/useWord'
 import Title from '../../../components/common/Title'
-import StyledButton from '../../../components/common/Button'
+import StyledButton from '../../../components/button/Button'
 import styled from 'styled-components'
 import {useNavigate} from 'react-router-dom'
 import {useEffect, useState} from 'react'
+import ButtonGroup from '../../../components/button/ButtonGroup'
+import {wordType} from '../../../database/words'
 
 const Button = styled(StyledButton)`
   font-size: 2rem;
 `
-
-const ToggleButton = styled.button`
-  position: relative;
-  padding: 0 .8rem;
-  font-size: 1.7rem;
-  color: ${props => props.active ? props.theme.white : null};
-
-  &:before {
-    content: "";
-    position: absolute;
-    top: .9rem;
-    left: -.5rem;
-    width: .5rem;
-    height: .5rem;
-    border-radius: 50%;
-    background-color: ${props => props.active ? props.theme.white : props.theme.gray};
-  }
-`
-
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 1rem;
-  color: ${props => props.theme.text.gray};
-`
-
-const wordType = {
-  type1: "en",
-  type2: "ko"
-}
 
 const Today = () => {
   // ** hooks
@@ -74,10 +47,7 @@ const Today = () => {
       <Title>Today's words</Title>
       <Row>
         <FlexBox justify="flex-end">
-          <ButtonGroup>
-            <ToggleButton active={enBtn} onClick={() => handleToggle("en")}>En</ToggleButton>
-            <ToggleButton active={koBtn} onClick={() => handleToggle("ko")}>Ko</ToggleButton>
-          </ButtonGroup>
+          <ButtonGroup enBtn={enBtn} koBtn={koBtn} handleToggle={handleToggle} />
         </FlexBox>
       </Row>
       <FlexBox direction="column" gap="2">

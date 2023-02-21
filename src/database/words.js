@@ -4,6 +4,11 @@ export const wordLevels = {
   advanced: 'advanced'
 }
 
+export const wordType = {
+  type1: "en",
+  type2: "ko"
+}
+
 export const words = [
   {id: 1, en: 'abate', ko: '(강도가)약해지다', level: 'intermediate'},
   {id: 2, en: 'abandon', ko: '버리다', level: 'intermediate'},

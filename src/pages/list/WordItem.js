@@ -1,11 +1,11 @@
 import FlexBox from '../../components/common/FlexBox'
-import Button from '../../components/common/Button'
+import Button from '../../components/button/Button'
 import {Check} from 'react-feather'
 import Card from '../../components/common/Card'
 import styled, {css} from 'styled-components'
 
 const WordBox = styled.div`
-  width: 100%;
+  width: ${props => props.showCheck ? '85%' : '100%'};
 `
 
 const WordEn = styled.h4`
@@ -49,7 +49,7 @@ const WordItem = ({word, handleCheck, type, showCheck}) => {
   return (
     <Card key={word.id} bgColor="dark" border={word.level}>
       <FlexBox justify="space-between" align="center">
-        <WordBox>
+        <WordBox showCheck={showCheck}>
           <WordEn type={type}>{word.en}</WordEn>
           <WordKo type={type}>{word.ko}</WordKo>
         </WordBox>

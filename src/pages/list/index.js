@@ -5,11 +5,12 @@ import styled from 'styled-components'
 import Pagination from '../../components/pagination/pagination'
 import Row from '../../components/common/Row'
 import WordItem from './WordItem'
-import {wordLevels} from '../../database/words'
+import {wordLevels, wordType} from '../../database/words'
 import {useRecoilState} from 'recoil'
 import {useParams} from 'react-router-dom'
 import Title from '../../components/common/Title'
 import useUser from "../auth/store/useUser";
+import ButtonGroup from '../../components/button/ButtonGroup'
 
 const Select = styled.select`
   padding: 1rem;
@@ -39,10 +40,27 @@ const List = () => {
   // ** recoil states
   const [filter, setFilter] = useRecoilState(wordListFilterState)
 
+  // ** states
+  const [enBtn, setEnBtn] = useState(true) // 기본 모드
+  const [koBtn, setKoBtn] = useState(false)
+  const [currentWordType, setCurrentWordType] = useState(wordType.type1)
+
   // ** pagination states
   const [limit, setLimit] = useState(10) // 몇 개씩 보여줄지
   const [page, setPage] = useState(1) // 현재 페이지
   const offset = (page - 1) * limit // 몇 번째꺼 까지
+
+  const handleToggle = (type) => {
+    if (type === wordType.type1) {
+      setEnBtn(!enBtn)
+      setKoBtn(false)
+      setCurrentWordType(type)
+    } else if (type === wordType.type2){
+      setKoBtn(!koBtn)
+      setEnBtn(false)
+      setCurrentWordType(type)
+    }
+  }
 
   const handleCheck = (id) => {
     setCurrentUser({
@@ -54,6 +72,12 @@ const List = () => {
       })
     })
   }
+
+  useEffect(() => {
+    if (!enBtn && !koBtn) {
+      setCurrentWordType(null)
+    }
+  }, [enBtn, koBtn, currentWordType])
 
   useEffect(() => {
     if (params.id) {
@@ -91,24 +115,33 @@ const List = () => {
           </label>
         </FlexBox>
       </Row>
-      <FlexBox direction="column" gap="2">
-        {
-          filteredWordList.slice(offset, offset + limit).map(word => (
-            <WordItem
-              key={word.en}
-              word={word}
-              showCheck={true}
-              handleCheck={() => handleCheck(word.id)}/>
-          ))
-        }
+
+      <FlexBox justify="flex-end">
+        <ButtonGroup enBtn={enBtn} koBtn={koBtn} handleToggle={handleToggle} />
       </FlexBox>
 
-      <Pagination
-        total={filteredWordList.length}
-        limit={limit}
-        page={page}
-        setPage={setPage}
-       />
+      <Row>
+        <FlexBox direction="column" gap="2">
+          {
+            filteredWordList.slice(offset, offset + limit).map(word => (
+              <WordItem
+                key={word.en}
+                word={word}
+                type={currentWordType}
+                showCheck={true}
+                handleCheck={() => handleCheck(word.id)}/>
+            ))
+          }
+        </FlexBox>
+
+
+        <Pagination
+          total={filteredWordList.length}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+         />
+      </Row>
     </>
   )
 }
