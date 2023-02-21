@@ -5,6 +5,7 @@ import Router from './router'
 import {ThemeProvider} from 'styled-components'
 import {useState} from 'react'
 import {darkTheme} from './utility/theme'
+import ScrollTop from './components/common/ScrollTop'
 
 function App() {
   const [theme, setTheme] = useState(darkTheme)
@@ -13,6 +14,7 @@ function App() {
     <RecoilRoot>
       <ThemeProvider theme={{...theme, setTheme}}>
         <BrowserRouter>
+          <ScrollTop />
           <Router />
         </BrowserRouter>
       </ThemeProvider>
