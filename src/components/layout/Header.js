@@ -1,10 +1,11 @@
 import styled from 'styled-components'
-import {Menu} from 'react-feather'
+import {ChevronLeft, Menu} from 'react-feather'
+import {useNavigate} from 'react-router-dom'
 
 
 const HeaderWrap = styled.header`
   display: flex;
-  justify-content: flex-end;
+  justify-content: ${props => props.notHome ? 'space-between': 'flex-end'};
   position: absolute;
   top: 0;
   left: 0;
@@ -12,7 +13,7 @@ const HeaderWrap = styled.header`
   padding: 6rem 4rem;
 `
 
-const Hamburger = styled.button`
+const Button = styled.button`
   padding: 1rem;
   background-color: ${props => props.theme.gray};
   color: #fff;
@@ -20,12 +21,20 @@ const Hamburger = styled.button`
   line-height: 0;
 `
 
-const Header = ({children, setSidebarVisible}) => {
+const Header = ({notHome, children, setSidebarVisible}) => {
+  const navigate = useNavigate()
+
   return (
-    <HeaderWrap>
-      <Hamburger onClick={() => setSidebarVisible(true)}>
+    <HeaderWrap notHome={notHome}>
+      {notHome && (
+        <Button onClick={() => navigate(-1)}>
+          <ChevronLeft size={30}/>
+        </Button>
+      )}
+
+      <Button onClick={() => setSidebarVisible(true)}>
         <Menu size={30}/>
-      </Hamburger>
+      </Button>
       {children}
     </HeaderWrap>
   )

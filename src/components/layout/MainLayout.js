@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import {Outlet} from 'react-router-dom'
+import {Outlet, useLocation} from 'react-router-dom'
 import Header from './Header'
 import Sidebar from '../menu/Sidebar'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import Footer from './Footer'
 import FloatingMenu from '../menu/FloatingMenu'
 
@@ -18,11 +18,25 @@ const Layout = styled.div`
 `
 
 const MainLayout = () => {
+  const location = useLocation()
   const [sidebarVisible, setSidebarVisible] = useState(false)
+
+  const [notHome, setNotHome] = useState(false)
+
+  useEffect(() => {
+
+    if (location.pathname !== "/") {
+      setNotHome(true)
+    } else {
+      setNotHome(false)
+    }
+  }, [location])
 
   return (
     <Layout>
-      <Header setSidebarVisible={setSidebarVisible}/>
+      <Header
+        notHome={notHome}
+        setSidebarVisible={setSidebarVisible}/>
       <Sidebar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible} />
