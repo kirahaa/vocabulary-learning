@@ -8,11 +8,8 @@ import styled from 'styled-components'
 import Row from '../../components/common/Row'
 import FlexBox from '../../components/common/FlexBox'
 import Title from '../../components/common/Title'
-import WordItem from '../list/WordItem'
-import StyledButton from '../../components/button/Button'
-import useUser from "../auth/store/useUser"
-import {useEffect} from "react"
-import {useNavigate} from "react-router-dom"
+import {useEffect, useState} from 'react'
+import Result from './Result'
 
 const Card = styled(StyledCard)`
   text-align: center;
@@ -29,28 +26,16 @@ const Content = styled.div`
   display: ${props => props.currentIndex ? 'block' : 'none'};
 `
 
-const Button = styled(StyledButton)`
-  font-size: 2rem;
-`
-
-const QuizResult = styled(FlexBox)`
-  margin: 0 auto;
-  width: 15rem;
-  height: 15rem;
-  border: 1px solid ${props => props.theme.pink};
-  border-radius: 50%;
-  font-size: 3rem;
-  font-weight: bold;
-`
-
 const Quiz = () => {
   // ** hook
-  const navigate = useNavigate()
   const {todayList, setTodayList} = useWord()
 
   // ** recoil
   const [currentIndex, setCurrentIndex] = useRecoilState(currentQuizWordState)
   const randomOptions = useRecoilValue(randomNotTodayListState)
+
+  // ** state
+  const [done, setDone] = useState(false)
 
   // const {currentUser, setCurrentUser} = useUser()
 
@@ -64,45 +49,13 @@ const Quiz = () => {
     setCurrentIndex((currentIndex) => (currentIndex + 1))
   }
 
-  const Result = () => {
-    const handleRetry = () => {
-      // TODO:: 틀린 단어들만!
-      setCurrentIndex(0)
-    }
-
-    const handleBackToListBtn = () => {
-      navigate('/today')
-    }
-
-    if (currentIndex > 9) {
-      return (
-        <>
-          <Row>
-            <QuizResult justify="center" align="center">
-              {todayList.filter(item => item.isCompleted).length} / {todayList.length}
-            </QuizResult>
-          </Row>
-          <FlexBox direction="column" gap="2">
-            {
-              todayList.map(item => (
-                <WordItem key={`result-item-${item.id}`} word={item} showCheck={true} />
-              ))
-            }
-          </FlexBox>
-          <Row>
-            <FlexBox justify="space-between" gap="2">
-              <Button bgColor="primary" onClick={handleRetry}>Let's try Again</Button>
-              <Button bgColor="secondary" onClick={handleBackToListBtn}>Back to List</Button>
-            </FlexBox>
-          </Row>
-        </>
-      )
-    }
-  }
-
   useEffect(() => {
-    console.log(todayList, 'todayList')
-  }, [todayList])
+    if (currentIndex === todayList.length) {
+      setDone(true)
+    } else {
+      setDone(false)
+    }
+  }, [currentIndex])
 
   useEffect(() => {
     return () => {
@@ -139,8 +92,12 @@ const Quiz = () => {
               </Content>
             ))
           }
-          {/* 결과 페이지 */}
-          <Result />
+          {/* 결과 */}
+          <Result
+            setCurrentIndex={setCurrentIndex}
+            todayList={todayList}
+            done={done}
+          />
         </>
       ) : null}
     </>
