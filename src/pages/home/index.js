@@ -1,6 +1,6 @@
 import FlexBox from '../../components/common/FlexBox'
 import styled from 'styled-components'
-import StyledButton from '../../components/common/Button'
+import StyledButton from '../../components/button/Button'
 import ProgressBar from '../../components/common/ProgressBar'
 import Row from '../../components/common/Row'
 import StyledCard from '../../components/common/Card'

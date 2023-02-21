@@ -9,7 +9,7 @@ import Row from '../../components/common/Row'
 import FlexBox from '../../components/common/FlexBox'
 import Title from '../../components/common/Title'
 import WordItem from '../list/WordItem'
-import StyledButton from '../../components/common/Button'
+import StyledButton from '../../components/button/Button'
 import useUser from "../auth/store/useUser"
 import {useEffect} from "react"
 import {useNavigate} from "react-router-dom"

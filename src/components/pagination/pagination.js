@@ -1,4 +1,4 @@
-import Button from '../common/Button'
+import Button from '../button/Button'
 import styled from 'styled-components'
 import {ChevronLeft, ChevronRight} from 'react-feather'
 import {useState} from 'react'

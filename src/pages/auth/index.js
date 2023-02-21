@@ -1,7 +1,7 @@
 import styled, {css} from "styled-components"
 import StyledImage, {Image} from "../../components/common/Image"
 import StyledInput from "../../components/common/Input"
-import StyledButton from "../../components/common/Button"
+import StyledButton from "../../components/button/Button"
 import FlexBox from "../../components/common/FlexBox"
 import useAuth from "../../hooks/useAuth"
 
