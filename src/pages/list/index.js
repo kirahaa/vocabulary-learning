@@ -62,6 +62,11 @@ const List = () => {
     }
   }
 
+  const handleFilter = (value) => {
+    setFilter(value)
+    setPage(1)
+  }
+
   const handleCheck = (id) => {
     setCurrentUser({
       ...currentUser,
@@ -93,7 +98,7 @@ const List = () => {
           <label>
             <Select
               value={filter}
-              onChange={({target: {value}}) => setFilter(value)}
+              onChange={({target: {value}}) => handleFilter(value)}
             >
               <option value="all">All</option>
               {Object.keys(wordLevels).map(level => (
