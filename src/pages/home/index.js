@@ -73,7 +73,9 @@ const Home = () => {
     if (currentUser.history && Object.keys(currentUser.history)[0] === todayDate) {
       setTodayList(currentUser.history[Object.keys(currentUser.history)[0]])
     } else {
-      setTodayList([...words].sort(() => Math.random() - 0.5).slice(0, 10))
+      if (todayList.length < 0) {
+        setTodayList([...words].sort(() => Math.random() - 0.5).slice(0, 10))
+      }
     }
   }, [])
 
