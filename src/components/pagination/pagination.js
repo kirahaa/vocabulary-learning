@@ -16,6 +16,7 @@ const Pagination = ({total, limit, page, setPage}) => {
   const [currPage, setCurrPage] = useState(page)
   let firstNum = currPage - (currPage % 5) + 1
   let lastNum = currPage - (currPage % 5) + 5
+  const btnLength = numPages < 5 ? numPages - 1 : 4
 
   return (
     <Nav>
@@ -33,7 +34,7 @@ const Pagination = ({total, limit, page, setPage}) => {
         aria-current={page === firstNum ? "page" : null}>
         {firstNum}
       </Button>
-      {Array(4)
+      {Array(btnLength)
         .fill()
         .map((_, i) => {
           if (i <= 2) {
@@ -59,7 +60,6 @@ const Pagination = ({total, limit, page, setPage}) => {
               </Button>
             )
           }
-
         })
       }
       <Button
