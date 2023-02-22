@@ -1,5 +1,5 @@
 import {atom, selector, useRecoilState, useRecoilValue} from 'recoil'
-import {wordLevels, words} from '../../../database/words'
+import {wordLevels, words, wordStates, wordType} from '../../../database/words'
 import {currentUserState} from "../../auth/store/useUser"
 import {todayDate} from '../../../utility'
 
@@ -10,7 +10,7 @@ const wordListState = atom({
 
 export const wordListFilterState = atom({
   key: 'wordListFilterState',
-  default: 'all',
+  default: wordType.type3, // all
 })
 
 // ** 오늘의 단어 리스트 (10개)
@@ -104,6 +104,10 @@ const filteredWordListState = selector({
         return list.filter((item) => item.level === wordLevels.intermediate)
       case wordLevels.advanced:
         return list.filter((item) => item.level === wordLevels.advanced)
+      case wordStates.state1:
+        return list.filter((item) => !item.isCompleted)
+      case wordStates.state2:
+        return list.filter((item) => item.isCompleted)
       default:
         return list
     }

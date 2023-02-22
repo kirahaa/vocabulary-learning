@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import Pagination from '../../components/pagination/pagination'
 import Row from '../../components/common/Row'
 import WordItem from './WordItem'
-import {wordLevels, wordType} from '../../database/words'
+import {wordLevels, wordStates, wordType} from '../../database/words'
 import {useRecoilState} from 'recoil'
 import {useParams} from 'react-router-dom'
 import Title from '../../components/common/Title'
@@ -104,6 +104,9 @@ const List = () => {
               {Object.keys(wordLevels).map(level => (
                 <option key={`select-${level}`} value={level}>{level}</option>
               ))}
+              {Object.keys(wordStates).map(state => (
+                <option key={`select-${state}`} value={wordStates[state]}>{wordStates[state]}</option>
+              ))}
             </Select>
           </label>
 
@@ -138,7 +141,6 @@ const List = () => {
             ))
           }
         </FlexBox>
-
 
         <Pagination
           total={filteredWordList.length}

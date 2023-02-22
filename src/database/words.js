@@ -4,9 +4,15 @@ export const wordLevels = {
   advanced: 'advanced'
 }
 
+export const wordStates = {
+  state1: 'uncompleted',
+  state2: 'completed'
+}
+
 export const wordType = {
   type1: "en",
-  type2: "ko"
+  type2: "ko",
+  type3: 'all'
 }
 
 export const words = [

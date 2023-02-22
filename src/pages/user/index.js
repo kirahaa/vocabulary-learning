@@ -10,6 +10,8 @@ import {useRecoilValue} from 'recoil'
 import {wordListNumStates} from '../list/store/useWord'
 import useUser from "../auth/store/useUser"
 import NoData from '../../components/common/NoData'
+import {wordType, wordStates} from '../../database/words'
+import {useNavigate} from 'react-router-dom'
 
 const ImageWrap = styled.div`
   position: relative;
@@ -37,6 +39,7 @@ const RowTitle = styled.h2`
 const User = () => {
   // ** hook
   const {users, setUsers, currentUser, setCurrentUser} = useUser()
+  const navigate = useNavigate()
 
   // ** recoil states
   const {totalNum, totalCompletedNum, totalUnCompletedNum, percentCompleted} = useRecoilValue(wordListNumStates)
@@ -55,6 +58,10 @@ const User = () => {
     }
   }
 
+  const goListPage = (type) => {
+    navigate(`/list/${type}`)
+  }
+
   return (
     <>
       <FlexBox justify="center">
@@ -71,15 +78,15 @@ const User = () => {
       </Row>
 
       <FlexBox gap="2">
-        <Button bgColor="primary">
+        <Button bgColor="primary" onClick={() => goListPage(wordType.type3)}>
           <Strong>{totalNum}</Strong>
           Total
         </Button>
-        <Button bgColor="secondary">
+        <Button bgColor="secondary" onClick={() => goListPage(wordStates.state1)}>
           <Strong>{totalUnCompletedNum}</Strong>
           Uncompleted
         </Button>
-        <Button bgColor="pink">
+        <Button bgColor="pink" onClick={() => goListPage(wordStates.state2)}>
           <Strong>{totalCompletedNum}</Strong>
           Completed
         </Button>
