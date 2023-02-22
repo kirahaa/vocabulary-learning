@@ -70,12 +70,10 @@ const Home = () => {
 
   useEffect(() => {
     // 랜덤 today list 생성
-    if (currentUser.history) {
-      setTodayList(currentUser.history[todayDate])
+    if (currentUser.history && Object.keys(currentUser.history)[0] === todayDate) {
+      setTodayList(currentUser.history[Object.keys(currentUser.history)[0]])
     } else {
-      if (todayList.length === 0) {
-        setTodayList([...words].sort(() => Math.random() - 0.5).slice(0, 10))
-      }
+      setTodayList([...words].sort(() => Math.random() - 0.5).slice(0, 10))
     }
   }, [])
 

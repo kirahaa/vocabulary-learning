@@ -68,9 +68,6 @@ const Today = () => {
 
   useEffect(() => {
     if (todayList) {
-      setCurrentUser({
-        ...currentUser
-      })
       setTodayList(
         todayList.map(item => item ? {...item, date: date} : item)
       )

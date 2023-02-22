@@ -1,10 +1,7 @@
 import {atom, selector, useRecoilState, useRecoilValue} from 'recoil'
 import {wordLevels, words} from '../../../database/words'
 import {currentUserState} from "../../auth/store/useUser"
-import {recoilPersist} from "recoil-persist"
 import {todayDate} from '../../../utility'
-
-const {persistAtom} = recoilPersist()
 
 const wordListState = atom({
   key: 'wordListState',
@@ -19,8 +16,7 @@ export const wordListFilterState = atom({
 // ** 오늘의 단어 리스트 (10개)
 const todayWordListState = atom({
   key: 'todayWordListState',
-  default: [],
-  effects_UNSTABLE: [persistAtom]
+  default: []
 })
 
 // ** 현재 퀴즈 단어 index
@@ -34,7 +30,7 @@ export const todayWordListNumStates = selector({
   key: 'todayWordListNumStates',
   get: ({get}) => {
     const user = get(currentUserState)
-    const todayList = user.history ? user.history[todayDate] : get(todayWordListState)
+    const todayList = user.history ? user.history[todayDate] ? user.history[todayDate] : get(todayWordListState) : get(todayWordListState)
     const todayTotalNum = todayList.length
     const todayCompletedNum = todayList.filter(item => item.isCompleted).length
     const todayPercentage = todayTotalNum !== 0 && (todayCompletedNum / todayTotalNum) * 100

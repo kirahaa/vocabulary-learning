@@ -7,7 +7,7 @@ import Row from '../../components/common/Row'
 import {FileText} from 'react-feather'
 import Card from '../../components/common/Card'
 import {useRecoilValue} from 'recoil'
-import useWord, {wordListNumStates} from '../list/store/useWord'
+import {wordListNumStates} from '../list/store/useWord'
 import useUser from "../auth/store/useUser"
 
 const ImageWrap = styled.div`
@@ -36,7 +36,6 @@ const RowTitle = styled.h2`
 const User = () => {
   // ** hook
   const {users, setUsers, currentUser, setCurrentUser} = useUser()
-  const {setTodayList} = useWord()
 
   // ** recoil states
   const {totalNum, totalCompletedNum, totalUnCompletedNum, percentCompleted} = useRecoilValue(wordListNumStates)
@@ -49,8 +48,6 @@ const User = () => {
           return user.id === currentUser.id ? currentUser : user
         })
       })
-      // todayList 초기화
-      setTodayList([])
 
       // currentUser 초기화
       setCurrentUser(null)
