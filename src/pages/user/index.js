@@ -9,6 +9,7 @@ import Card from '../../components/common/Card'
 import {useRecoilValue} from 'recoil'
 import {wordListNumStates} from '../list/store/useWord'
 import useUser from "../auth/store/useUser"
+import NoData from '../../components/common/NoData'
 
 const ImageWrap = styled.div`
   position: relative;
@@ -87,26 +88,32 @@ const User = () => {
       <Row>
         <RowTitle>Your Scores</RowTitle>
         <FlexBox direction="column" gap="2">
-          <Card bgColor="gray">
-            <FlexBox gap="1">
-              <FileText size={45}/>
-              <div>
-                <h5>23-02-15</h5>
-                <p>5/10</p>
-              </div>
-            </FlexBox>
-            <ProgressBar />
-          </Card>
-          <Card bgColor="gray">
-            <FlexBox gap="1">
-              <FileText size={45}/>
-              <div>
-                <h5>23-02-14</h5>
-                <p>5/10</p>
-              </div>
-            </FlexBox>
-            <ProgressBar />
-          </Card>
+          {
+            currentUser.history ?
+              (Object.keys(currentUser.history).map(key => (
+                <Card bgColor="gray" key={key} hover>
+                  <FlexBox gap="1">
+                    <FileText size={45}/>
+                    <div>
+                      <h5>{key}</h5>
+                      <p>
+                        {/* 맞은 갯수 */}
+                        {currentUser.history[key].filter(item => item.isCompleted === true).length}
+                        /
+                        {/* 총 갯수 */}
+                        {currentUser.history[key].length}</p>
+                    </div>
+                  </FlexBox>
+                  <ProgressBar percent={
+                    (Number(currentUser.history[key].filter(item => item.isCompleted === true).length) / Number(currentUser.history[key].length)) * 100
+                  } />
+                </Card>
+              ))) : (
+              <>
+                <NoData />
+              </>
+            )
+          }
         </FlexBox>
       </Row>
     </>
