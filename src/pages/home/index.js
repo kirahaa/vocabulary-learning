@@ -11,6 +11,11 @@ import {useRecoilValue} from 'recoil'
 import useUser from "../auth/store/useUser"
 import {useEffect, useState} from "react"
 import {shuffleNSliceArray, todayDate} from '../../utility'
+import {Swiper, SwiperSlide} from 'swiper/react'
+import 'swiper/css'
+import './swiper.scss'
+import 'swiper/css/pagination'
+import {Pagination} from 'swiper'
 
 const Title = styled.h1`
   font-weight: bold;
@@ -90,17 +95,35 @@ const Home = () => {
 
       <Row>
         <RowTitle>Practice English</RowTitle>
-        <Card bgColor="primary">
-          <FlexBox justify="space-between" align="center">
-            <div>
-              <CardTitle>Word of the day</CardTitle>
-              <Strong>{todayWord}</Strong>
-            </div>
-            <div>
-              <CardButton onClick={() => navigate(`/today`)}>View more ></CardButton>
-            </div>
-          </FlexBox>
-        </Card>
+        <Swiper
+          spaceBetween={20}
+          slidesPerView={"auto"}
+          pagination={{
+            clickable: true
+          }}
+          modules={[Pagination]}
+        >
+          {/*TODO:: pagination 밖으로 빼기 */}
+          {
+            todayList.length > 0 ? (
+              todayList.map((item, idx) => (
+                <SwiperSlide key={item.id}>
+                  <Card bgColor={Number(idx) % 2 ? 'pink': 'primary'}>
+                    <FlexBox justify="space-between" align="center">
+                      <div>
+                        <CardTitle>Word of the day</CardTitle>
+                        <Strong>{item.en}</Strong>
+                      </div>
+                      <div>
+                        <CardButton onClick={() => navigate(`/today`)}>View more ></CardButton>
+                      </div>
+                    </FlexBox>
+                  </Card>
+                </SwiperSlide>
+              ))
+            ) : null
+          }
+        </Swiper>
       </Row>
 
       <Row>
