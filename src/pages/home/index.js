@@ -69,11 +69,12 @@ const Home = () => {
   }, [todayList])
 
   useEffect(() => {
-    // 랜덤 today list 생성
+    // history가 있거나, 오늘의 퀴즈를 이미 본 경우, 오늘 본 퀴즈 리스트 출력
     if (currentUser.history && Object.keys(currentUser.history)[0] === todayDate) {
       setTodayList(currentUser.history[Object.keys(currentUser.history)[0]])
     } else {
-      if (todayList.length < 0) {
+      // history가 없거나, 오늘의 퀴즈를 아직 보지 않은 경우, 랜덤 today list 생성
+      if (todayList.length === 0) {
         setTodayList([...words].sort(() => Math.random() - 0.5).slice(0, 10))
       }
     }
