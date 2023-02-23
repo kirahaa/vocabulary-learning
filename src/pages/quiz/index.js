@@ -11,8 +11,12 @@ import Title from '../../components/common/Title'
 import {useEffect, useState} from 'react'
 import Result from './Result'
 import useUser from '../auth/store/useUser'
-import {shuffleNSliceArray, todayDate as date} from '../../utility'
+import {
+  randomFunc,
+  todayDate as date
+} from '../../utility'
 import ProgressBar from '../../components/common/ProgressBar'
+import {wordType} from '../../database/words'
 
 const Card = styled(StyledCard)`
   text-align: center;
@@ -45,9 +49,22 @@ const Quiz = () => {
   const [list, setList] = useState(null)
   const [done, setDone] = useState(false)
   const [percent, setPercent] = useState(0)
+  const [currentLang, setCurrentLang] = useState(wordType.type1) // 현재 퀴즈 언어
+  const [optionLang, setOptionLang] = useState(wordType.type2) // 옵션 언어
 
   // ** variables
   const ok = Object.keys(currentUser.history)[0] === date
+
+  // 랜덤 언어 설정
+  const handleRandomLang = () => {
+    if (randomFunc()) {
+      setCurrentLang(wordType.type1)
+      setOptionLang(wordType.type2)
+    } else {
+      setCurrentLang(wordType.type2)
+      setOptionLang(wordType.type1)
+    }
+  }
 
   const handleAnswerCheck = (id) => {
     let currentList = list.map(item => {
@@ -61,6 +78,7 @@ const Quiz = () => {
         [date]: currentList
       }
     })
+    handleRandomLang()
     setCurrentIndex((currentIndex) => (currentIndex + 1))
   }
 
@@ -80,7 +98,7 @@ const Quiz = () => {
 
   useEffect(() => {
     if (ok) {
-      setList(shuffleNSliceArray(currentUser.history[date].map(item => item)))
+      setList(currentUser.history[date].map(item => item))
     }
     return () => {
       setCurrentIndex(0) // 인덱스 초기화
@@ -99,13 +117,13 @@ const Quiz = () => {
                 <ProgressBar percent={percent}/>
                 <Row>
                   <Card bgColor="primary">
-                    <p>이 단어의 뜻은?</p>
-                    <h4>{item.en}</h4>
+                    <p>{currentLang === wordType.type1 ? '해당 단어의 뜻은?' : '아래 뜻의 단어는?'}</p>
+                    <h4>{item[currentLang]}</h4>
                   </Card>
                 </Row>
                 <FlexBox direction="column" gap="2">
                   {randomOptions ? randomOptions.map(item => (
-                    <Card key={item.en} border onClick={() => handleAnswerCheck(item.id)}>{item.ko}</Card>
+                    <Card key={item.id} border onClick={() => handleAnswerCheck(item.id)}>{item[optionLang]}</Card>
                   )) : null}
                 </FlexBox>
               </Content>
