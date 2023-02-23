@@ -67,10 +67,16 @@ const Today = () => {
   }, [enBtn, koBtn, currentWordType])
 
   useEffect(() => {
-    if (todayList) {
-      setTodayList(
-        todayList.map(item => item ? {...item, date: date} : item)
-      )
+    if (currentUser.history && Object.keys(currentUser.history)[0] === date) {
+      setTodayList(currentUser.history[Object.keys(currentUser.history)[0]].map(item => item ? {...item, date: date} : item))
+    } else {
+      // history 없는데 새로고침 했을 경우,
+      if (todayList.length === 0) {
+        alert('잘못된 접근입니다.')
+        navigate('/')
+      } else {
+        setTodayList(todayList.map(item => item ? {...item, date: date} : item))
+      }
     }
   }, [])
 
