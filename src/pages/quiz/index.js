@@ -11,7 +11,8 @@ import Title from '../../components/common/Title'
 import {useEffect, useState} from 'react'
 import Result from './Result'
 import useUser from '../auth/store/useUser'
-import {todayDate as date} from '../../utility'
+import {shuffleNSliceArray, todayDate as date} from '../../utility'
+import ProgressBar from '../../components/common/ProgressBar'
 
 const Card = styled(StyledCard)`
   text-align: center;
@@ -28,6 +29,10 @@ const Content = styled.div`
   display: ${props => props.currentIndex ? 'block' : 'none'};
 `
 
+const CurrentIndex = styled.p`
+  text-align: right;
+`
+
 const Quiz = () => {
   // ** hook
   const {currentUser, setCurrentUser} = useUser()
@@ -39,6 +44,7 @@ const Quiz = () => {
   // ** state
   const [list, setList] = useState(null)
   const [done, setDone] = useState(false)
+  const [percent, setPercent] = useState(0)
 
   // ** variables
   const ok = Object.keys(currentUser.history)[0] === date
@@ -67,8 +73,14 @@ const Quiz = () => {
   }, [currentIndex])
 
   useEffect(() => {
+    if (list) {
+      setPercent(Number(Number(currentIndex) / Number(list.length)) * 100)
+    }
+  }, [list])
+
+  useEffect(() => {
     if (ok) {
-      setList(currentUser.history[date].map(item => item))
+      setList(shuffleNSliceArray(currentUser.history[date].map(item => item)))
     }
     return () => {
       setCurrentIndex(0) // 인덱스 초기화
@@ -83,6 +95,8 @@ const Quiz = () => {
           {
             list.map((item, id) => (
               <Content key={`quiz-item-${id}`} currentIndex={id === currentIndex}>
+                <CurrentIndex>{currentIndex + 1} / {list.length}</CurrentIndex>
+                <ProgressBar percent={percent}/>
                 <Row>
                   <Card bgColor="primary">
                     <p>이 단어의 뜻은?</p>
