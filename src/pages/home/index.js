@@ -10,7 +10,7 @@ import useWord, {todayWordListNumStates, wordListNumStates} from '../list/store/
 import {useRecoilValue} from 'recoil'
 import useUser from "../auth/store/useUser"
 import {useEffect, useState} from "react"
-import {todayDate} from '../../utility'
+import {shuffleNSliceArray, todayDate} from '../../utility'
 
 const Title = styled.h1`
   font-weight: bold;
@@ -75,7 +75,7 @@ const Home = () => {
     } else {
       // history가 없거나, 오늘의 퀴즈를 아직 보지 않은 경우, 랜덤 today list 생성
       if (todayList.length === 0) {
-        setTodayList([...words].sort(() => Math.random() - 0.5).slice(0, 10))
+        setTodayList(shuffleNSliceArray(words))
       }
     }
   }, [])
