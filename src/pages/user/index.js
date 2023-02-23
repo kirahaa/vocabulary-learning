@@ -20,9 +20,9 @@ const ImageWrap = styled.div`
 `
 
 const UserName = styled.h1`
-  margin: 1rem;
+  margin: 2rem 0;
   text-align: center;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 500;
 `
 
@@ -62,6 +62,10 @@ const User = () => {
     navigate(`/list/${type}`)
   }
 
+  const handleHistory = (key) => {
+    navigate(`/history/${key}`)
+  }
+
   return (
     <>
       <FlexBox justify="center">
@@ -93,12 +97,16 @@ const User = () => {
       </FlexBox>
 
       <Row>
-        <RowTitle>Your Scores</RowTitle>
+        <RowTitle>Your History</RowTitle>
         <FlexBox direction="column" gap="2">
           {
             currentUser.history ?
               (Object.keys(currentUser.history).map(key => (
-                <Card bgColor="gray" key={key} hover>
+                <Card
+                  key={key}
+                  bgColor="gray"
+                  hover
+                  onClick={() => handleHistory(key)}>
                   <FlexBox gap="1">
                     <FileText size={45}/>
                     <div>

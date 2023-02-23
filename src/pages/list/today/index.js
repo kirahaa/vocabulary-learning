@@ -56,7 +56,7 @@ const Today = () => {
     // 현재 사용자 history에 추가
     setCurrentUser({
       ...currentUser,
-      history: currentUser.history ? {...groupedList, ...currentUser.history} : {...groupedList}
+      history: currentUser.history ? {...groupedList, ...currentUser.history} : groupedList
     })
   }
 
