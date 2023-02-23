@@ -11,6 +11,7 @@ import {useParams} from 'react-router-dom'
 import Title from '../../components/common/Title'
 import useUser from "../auth/store/useUser";
 import ButtonGroup from '../../components/button/ButtonGroup'
+import NoData from '../../components/common/NoData'
 
 const Select = styled.select`
   padding: 1rem;
@@ -92,7 +93,7 @@ const List = () => {
 
   return (
     <>
-      <Title>Study by Level</Title>
+      <Title>My Words</Title>
       <Row>
         <FlexBox justify="space-between">
           <label>
@@ -110,45 +111,52 @@ const List = () => {
             </Select>
           </label>
 
-          <label>
-            <Select
-              type="number"
-              value={limit}
-              onChange={({target: {value}}) => setLimit(Number(value))}
-            >
-              {selectOption.map(option => (
-                <option key={`select-${option.value}`} value={option.value}>{option.value}</option>
-              ))}
-            </Select>
-          </label>
+          {filteredWordList.length > 0 ? (
+            <label>
+              <Select
+                type="number"
+                value={limit}
+                onChange={({target: {value}}) => setLimit(Number(value))}
+              >
+                {selectOption.map(option => (
+                  <option key={`select-${option.value}`} value={option.value}>{option.value}</option>
+                ))}
+              </Select>
+            </label>
+          ) : null}
         </FlexBox>
       </Row>
 
-      <FlexBox justify="flex-end">
-        <ButtonGroup enBtn={enBtn} koBtn={koBtn} handleToggle={handleToggle} />
-      </FlexBox>
+      {filteredWordList.length > 0 ? (
+        <>
+          <FlexBox justify="flex-end">
+            <ButtonGroup enBtn={enBtn} koBtn={koBtn} handleToggle={handleToggle} />
+          </FlexBox>
+          <Row>
+            <FlexBox direction="column" gap="2">
+              {
+                filteredWordList.slice(offset, offset + limit).map(word => (
+                  <WordItem
+                    key={word.en}
+                    word={word}
+                    type={currentWordType}
+                    showCheck={true}
+                    handleCheck={() => handleCheck(word.id)}/>
+                ))
+              }
+            </FlexBox>
 
-      <Row>
-        <FlexBox direction="column" gap="2">
-          {
-            filteredWordList.slice(offset, offset + limit).map(word => (
-              <WordItem
-                key={word.en}
-                word={word}
-                type={currentWordType}
-                showCheck={true}
-                handleCheck={() => handleCheck(word.id)}/>
-            ))
-          }
-        </FlexBox>
-
-        <Pagination
-          total={filteredWordList.length}
-          limit={limit}
-          page={page}
-          setPage={setPage}
-         />
-      </Row>
+            <Pagination
+              total={filteredWordList.length}
+              limit={limit}
+              page={page}
+              setPage={setPage}
+            />
+          </Row>
+        </>
+      ) : (
+        <NoData size="big" />
+      )}
     </>
   )
 }
