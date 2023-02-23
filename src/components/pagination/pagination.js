@@ -11,6 +11,10 @@ const Nav = styled.nav`
   margin: 2.6rem;
 `
 
+const StyledButton = styled(Button)`
+  width: fit-content;
+`
+
 const Pagination = ({total, limit, page, setPage}) => {
   const numPages = Math.ceil(total / limit) // 총 몇개의 페이지가 나오는지
   const [currPage, setCurrPage] = useState(page)
@@ -28,36 +32,36 @@ const Pagination = ({total, limit, page, setPage}) => {
       >
         <ChevronLeft/>
       </Button>
-      <Button
+      <StyledButton
         onClick={() => setPage(firstNum)}
         bgColor={page === firstNum ? "primary" : null}
         aria-current={page === firstNum ? "page" : null}>
         {firstNum}
-      </Button>
+      </StyledButton>
       {Array(btnLength)
         .fill()
         .map((_, i) => {
           if (i <= 2) {
             return (
-              <Button
+              <StyledButton
                 key={i + 1}
                 onClick={() => setPage(firstNum + i + 1)}
                 bgColor={page === firstNum + i + 1 ? "primary" : null}
                 aria-current={page === firstNum + i + 1 ? "page" : null}
               >
                 {firstNum + i + 1}
-              </Button>
+              </StyledButton>
             )}
           else if (i >= 3) {
             return (
-              <Button
+              <StyledButton
                 key={i + 1}
                 onClick={() => setPage(lastNum)}
                 bgColor={page === lastNum ? "primary" : null}
                 aria-current={page === lastNum ? "page" : null}
               >
                 {lastNum}
-              </Button>
+              </StyledButton>
             )
           }
         })
