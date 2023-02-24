@@ -18,11 +18,12 @@ const Floating = styled.button`
     content: "Add word!";
     position: absolute;
     display: block;
-    width: 124%;
-    top: -1.5rem;
-    left: -0.5rem;
+    width: 140%;
+    top: -1.3rem;
+    left: -1rem;
     right: 0;
     opacity: 0;
+    font-size: 1.5rem;
     transition: .3s all;
   }
 
@@ -32,6 +33,7 @@ const Floating = styled.button`
     }
 
     &:after {
+      top: -1.8rem;
       opacity: 1;
     }
   }
