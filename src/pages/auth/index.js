@@ -1,9 +1,10 @@
-import styled, {css} from "styled-components"
+import styled from "styled-components"
 import StyledImage, {Image} from "../../components/common/Image"
 import StyledInput from "../../components/common/Input"
 import StyledButton from "../../components/button/Button"
 import FlexBox from "../../components/common/FlexBox"
 import useAuth from "../../hooks/useAuth"
+import ErrorMsg from '../../components/common/ErrorMsg'
 
 const Wrap = styled.div`
   position: relative;
@@ -46,14 +47,6 @@ const FakeFileUpload = styled(StyledImage)`
   cursor: pointer;
 `
 
-const AlertMsg = styled.p`
-  padding: 1rem 2rem 0;
-  color: ${props => props.theme.red};
-  ${props => props.file && css`
-    padding: 1rem 0;
-  `}
-`
-
 const Login = () => {
   const {
     newAccount,
@@ -94,7 +87,7 @@ const Login = () => {
                 type="text"
                 placeholder="Name"
                 {...register("name", {required: newAccount ? true : false })}/>
-              {errors.name?.type === 'required' && <AlertMsg role="alert">Name is required</AlertMsg>}
+              {errors.name?.type === 'required' && <ErrorMsg role="alert">Name is required</ErrorMsg>}
             </div>
           </FlexBox>
         ) : null}
@@ -105,7 +98,7 @@ const Login = () => {
             maxLength="20"
             {...register("loginId", {required: true})}
           />
-          {errors.loginId?.type === 'required' && <AlertMsg role="alert">ID is required</AlertMsg>}
+          {errors.loginId?.type === 'required' && <ErrorMsg role="alert">ID is required</ErrorMsg>}
         </div>
         <div>
           <StyledInput
@@ -113,7 +106,7 @@ const Login = () => {
             placeholder="Password"
             maxLength="20"
             {...register("password", {required: true})}/>
-          {errors.password?.type === 'required' && <AlertMsg role="alert">Password is required</AlertMsg>}
+          {errors.password?.type === 'required' && <ErrorMsg role="alert">Password is required</ErrorMsg>}
         </div>
         <Button type="submit" bgColor="primary">{newAccount ? "Create Account" : "Sign In"}</Button>
       </Form>
