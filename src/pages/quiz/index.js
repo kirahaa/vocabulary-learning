@@ -23,9 +23,11 @@ const Card = styled(StyledCard)`
   
   h4 {
     font-weight: 500;
+    font-family: 'Noto Sans KR', sans-serif;
   }
   p {
     padding-top: 0;
+    font-family: 'Noto Sans KR', sans-serif;
   }
 `
 
