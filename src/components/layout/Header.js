@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import {ChevronLeft, Menu} from 'react-feather'
-import {useNavigate} from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 
 
 const HeaderWrap = styled.header`
@@ -23,11 +23,20 @@ const Button = styled.button`
 
 const Header = ({notHome, children, setSidebarVisible}) => {
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const handleBackBtn = () => {
+    if (location.pathname === '/today') {
+      navigate('/')
+    } else {
+      navigate(-1)
+    }
+  }
 
   return (
     <HeaderWrap notHome={notHome}>
       {notHome && (
-        <Button onClick={() => navigate(-1)}>
+        <Button onClick={handleBackBtn}>
           <ChevronLeft size={30}/>
         </Button>
       )}

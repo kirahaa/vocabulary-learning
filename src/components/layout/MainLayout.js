@@ -24,7 +24,6 @@ const MainLayout = () => {
   const [notHome, setNotHome] = useState(false)
 
   useEffect(() => {
-
     if (location.pathname !== "/") {
       setNotHome(true)
     } else {

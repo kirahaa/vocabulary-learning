@@ -48,7 +48,7 @@ const Result = ({setCurrentIndex, todayList, done}) => {
           }
         </FlexBox>
         <Row>
-          <FlexBox justify="space-between" gap="2">
+          <FlexBox direction="column" gap="2">
             <Button bgColor="primary" onClick={handleRetry}>Let's try Again</Button>
             <Button bgColor="secondary" onClick={handleBackToListBtn}>Back to List</Button>
           </FlexBox>
