@@ -7,6 +7,17 @@ import {useEffect, useState} from 'react'
 import useUser from '../../auth/store/useUser'
 import WordItem from '../WordItem'
 import {wordType} from '../../../database/words'
+import styled from 'styled-components'
+
+const QuizResult = styled(FlexBox)`
+  margin: 0 auto;
+  width: 15rem;
+  height: 15rem;
+  border: 1px solid ${props => props.theme.pink};
+  border-radius: 50%;
+  font-size: 3rem;
+  font-weight: bold;
+`
 
 const History = () => {
   // ** hooks
@@ -56,6 +67,11 @@ const History = () => {
         <FlexBox justify="flex-end">
           <ButtonGroup enBtn={enBtn} koBtn={koBtn} handleToggle={handleToggle} />
         </FlexBox>
+      </Row>
+      <Row>
+        <QuizResult justify="center" align="center">
+          {list.filter(item => item.isCompleted).length} / {list.length > 0 && list.length}
+        </QuizResult>
       </Row>
       <FlexBox direction="column" gap="2">
         {
