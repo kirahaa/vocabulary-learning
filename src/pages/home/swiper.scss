@@ -1,3 +1,10 @@
+.swiper {
+    overflow: visible;
+
+    &-pagination {
+        bottom: -3rem !important;
+    }
+}
 .swiper-slide {
     width: 80%;
 }

@@ -50,6 +50,26 @@ const CardButton = styled(StyledButton)`
   padding: 1rem 0;
 `
 
+const SwiperWrap = styled.div`
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding-bottom: 3rem;
+  
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8%;
+    height: 12.3rem;
+    background: rgb(255,255,255);
+    background: linear-gradient(90deg, rgba(255,255,255,0) 1%, rgba(0,0,0,0.5) 100%);
+    z-index: 10;
+  }
+`
+
 const Home = () => {
   // ** hooks
   const navigate = useNavigate()
@@ -60,18 +80,9 @@ const Home = () => {
   const {basicNum, interNum, advanNum} = useRecoilValue(wordListNumStates)
   const {todayTotalNum, todayCompletedNum, todayPercentage} = useRecoilValue(todayWordListNumStates)
 
-  // ** states
-  const [todayWord, setTodayWord] = useState('') // 첫번째 단어
-
   const goListPage = (level) => {
     navigate(`/list/${level}`)
   }
-
-  useEffect(() => {
-    if (todayList.length > 0) {
-      setTodayWord(todayList[0].en)
-    }
-  }, [todayList])
 
   useEffect(() => {
     // history가 있거나, 오늘의 퀴즈를 이미 본 경우, 오늘 본 퀴즈 리스트 출력
@@ -95,35 +106,36 @@ const Home = () => {
 
       <Row>
         <RowTitle>Practice English</RowTitle>
-        <Swiper
-          spaceBetween={20}
-          slidesPerView={"auto"}
-          pagination={{
-            clickable: true
-          }}
-          modules={[Pagination]}
-        >
-          {/*TODO:: pagination 밖으로 빼기 */}
-          {
-            todayList.length > 0 ? (
-              todayList.map((item, idx) => (
-                <SwiperSlide key={item.id}>
-                  <Card bgColor={Number(idx) % 2 ? 'pink': 'primary'}>
-                    <FlexBox justify="space-between" align="center">
-                      <div>
-                        <CardTitle>Word of the day</CardTitle>
-                        <Strong>{item.en}</Strong>
-                      </div>
-                      <div>
-                        <CardButton onClick={() => navigate(`/today`)}>View more ></CardButton>
-                      </div>
-                    </FlexBox>
-                  </Card>
-                </SwiperSlide>
-              ))
-            ) : null
-          }
-        </Swiper>
+        <SwiperWrap>
+          <Swiper
+            spaceBetween={20}
+            slidesPerView={"auto"}
+            pagination={{
+              clickable: true
+            }}
+            modules={[Pagination]}
+          >
+            {
+              todayList.length > 0 ? (
+                todayList.map((item, idx) => (
+                  <SwiperSlide key={item.id}>
+                    <Card bgColor={Number(idx) % 2 ? 'pink': 'primary'}>
+                      <FlexBox justify="space-between" align="center">
+                        <div>
+                          <CardTitle>Word of the day</CardTitle>
+                          <Strong>{item.en}</Strong>
+                        </div>
+                        <div>
+                          <CardButton onClick={() => navigate(`/today`)}>View more ></CardButton>
+                        </div>
+                      </FlexBox>
+                    </Card>
+                  </SwiperSlide>
+                ))
+              ) : null
+            }
+          </Swiper>
+        </SwiperWrap>
       </Row>
 
       <Row>
