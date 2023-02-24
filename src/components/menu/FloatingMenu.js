@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import {Plus} from 'react-feather'
+import {useNavigate} from 'react-router-dom'
 
 const Floating = styled.button`
   position: fixed;
@@ -18,8 +19,10 @@ const Floating = styled.button`
 `
 
 const FloatingMenu = () => {
+  const navigate = useNavigate()
+
   return (
-    <Floating>
+    <Floating onClick={() => navigate('/new')}>
       <Plus size={30}/>
     </Floating>
   )

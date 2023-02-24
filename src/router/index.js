@@ -10,6 +10,7 @@ import Today from '../pages/list/today'
 import Quiz from '../pages/quiz'
 import Login from "../pages/auth"
 import History from '../pages/list/history'
+import Form from '../pages/form'
 
 const Router = () => {
   const navigate = useNavigate()
@@ -33,6 +34,7 @@ const Router = () => {
               <Route path="/list/:id" element={<List />}></Route>
               <Route path="/quiz" element={<Quiz />}></Route>
               <Route path="/history/:date" element={<History />}></Route>
+              <Route path="/new" element={<Form />}></Route>
             </Route>
           </>
         ) : (
