@@ -1,7 +1,6 @@
 import FlexBox from '../../components/common/FlexBox'
 import {useEffect, useState} from 'react'
 import useWord, {wordListFilterState} from './store/useWord'
-import styled from 'styled-components'
 import Pagination from '../../components/pagination/pagination'
 import Row from '../../components/common/Row'
 import WordItem from './WordItem'
@@ -12,18 +11,7 @@ import Title from '../../components/common/Title'
 import useUser from "../auth/store/useUser";
 import ButtonGroup from '../../components/button/ButtonGroup'
 import NoData from '../../components/common/NoData'
-
-const Select = styled.select`
-  padding: 1rem;
-  background-color: ${props => props.theme.gray};
-  border: none;
-  border-radius: 1rem;
-  font-size: 1.5rem;
-  font-weight: bold;
-  option {
-    color: #000;
-  }
-`
+import Select from '../../components/common/Select'
 
 const selectOption = [
   {value: 10},
