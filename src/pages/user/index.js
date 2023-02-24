@@ -7,7 +7,7 @@ import Row from '../../components/common/Row'
 import {FileText} from 'react-feather'
 import Card from '../../components/common/Card'
 import {useRecoilValue} from 'recoil'
-import {wordListNumStates} from '../list/store/useWord'
+import useWord, {wordListNumStates} from '../list/store/useWord'
 import useUser from "../auth/store/useUser"
 import NoData from '../../components/common/NoData'
 import {wordType, wordStates} from '../../database/words'
@@ -39,6 +39,7 @@ const RowTitle = styled.h2`
 const User = () => {
   // ** hook
   const {users, setUsers, currentUser, setCurrentUser} = useUser()
+  const {setTodayList} = useWord()
   const navigate = useNavigate()
 
   // ** recoil states
@@ -52,6 +53,8 @@ const User = () => {
           return user.id === currentUser.id ? currentUser : user
         })
       })
+      // todayList 초기화
+      setTodayList([])
 
       // currentUser 초기화
       setCurrentUser(null)
