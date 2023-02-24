@@ -22,12 +22,19 @@ const MainLayout = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false)
 
   const [notHome, setNotHome] = useState(false)
+  const [isNewPage, setIsNewPage] = useState(false)
 
   useEffect(() => {
-    if (location.pathname !== "/") {
-      setNotHome(true)
-    } else {
+    if (location.pathname === "/") {
       setNotHome(false)
+      setIsNewPage(false)
+    } else {
+      setNotHome(true)
+      if (location.pathname === "/new") {
+        setIsNewPage(true)
+      } else {
+        setIsNewPage(false)
+      }
     }
   }, [location])
 
@@ -40,7 +47,7 @@ const MainLayout = () => {
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible} />
       <Outlet />
-      <FloatingMenu />
+      <FloatingMenu isNewPage={isNewPage} />
       <Footer />
     </Layout>
   )

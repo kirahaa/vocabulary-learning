@@ -3,6 +3,7 @@ import {Plus} from 'react-feather'
 import {useNavigate} from 'react-router-dom'
 
 const Floating = styled.button`
+  display: ${props => props.isNewPage ? "none" : "block"};
   position: fixed;
   right: 38%;
   bottom: 3rem;
@@ -11,6 +12,33 @@ const Floating = styled.button`
   border-radius: 50%;
   line-height: 0;
   z-index: 100;
+  transition: .3s all;
+
+  &:after {
+    content: "Add word!";
+    position: absolute;
+    display: block;
+    width: 124%;
+    top: -1.5rem;
+    left: -0.5rem;
+    right: 0;
+    opacity: 0;
+    transition: .3s all;
+  }
+
+  &:hover {
+    svg {
+      transform: rotate(-90deg);
+    }
+
+    &:after {
+      opacity: 1;
+    }
+  }
+  
+  svg {
+    transition: .3s all;
+  }
 
   @media screen and (max-width: 540px) {
     right: 4rem;
@@ -18,11 +46,11 @@ const Floating = styled.button`
   }
 `
 
-const FloatingMenu = () => {
+const FloatingMenu = ({isNewPage}) => {
   const navigate = useNavigate()
 
   return (
-    <Floating onClick={() => navigate('/new')}>
+    <Floating isNewPage={isNewPage} onClick={() => navigate('/new')}>
       <Plus size={30}/>
     </Floating>
   )
