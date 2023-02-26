@@ -106,6 +106,7 @@ const Quiz = () => {
     }
     return () => {
       setCurrentIndex(0) // 인덱스 초기화
+      setList([]) // 현재 quiz list 초기화
     }
   }, [])
 

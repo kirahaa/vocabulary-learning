@@ -8,6 +8,14 @@ import useUser from '../../auth/store/useUser'
 import WordItem from '../WordItem'
 import {wordType} from '../../../database/words'
 import styled from 'styled-components'
+import StyledButton from "../../../components/button/Button"
+import {todayDate as date} from "../../../utility"
+import {useSetRecoilState} from "recoil"
+import {currentQuizListState} from "../store/useWord"
+
+const Button = styled(StyledButton)`
+  font-size: 2rem;
+`
 
 const QuizResult = styled(FlexBox)`
   margin: 0 auto;
@@ -25,11 +33,23 @@ const History = () => {
   const navigate = useNavigate()
   const {currentUser} = useUser()
 
+  // ** recoil
+  const setQuizList = useSetRecoilState(currentQuizListState)
+
   // ** states
   const [list, setList] = useState([])
   const [enBtn, setEnBtn] = useState(true) // 기본 모드
   const [koBtn, setKoBtn] = useState(false)
   const [currentWordType, setCurrentWordType] = useState(wordType.type1)
+  const isNotCompleted = currentUser.history[date].filter(item => !item.isCompleted).length > 0
+
+  const handleRetakeQuiz = () => {
+    // 아직 못 맞춘 단어가 있을 경우에만
+    if (isNotCompleted) {
+      setQuizList(currentUser.history[date].filter(item => !item.isCompleted))
+      navigate('/quiz')
+    }
+  }
 
   const handleToggle = (type) => {
     if (type === wordType.type1) {
@@ -82,6 +102,11 @@ const History = () => {
           ) : null
         }
       </FlexBox>
+      {params === date && isNotCompleted ? (
+        <Row>
+          <Button bgColor="primary" onClick={handleRetakeQuiz}>Let's retake quiz!</Button>
+        </Row>
+      ) : null}
     </>
   )
 }
