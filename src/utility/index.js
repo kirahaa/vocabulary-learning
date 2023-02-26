@@ -15,8 +15,8 @@ export const toStringByFormatting = (source, delimiter = '-') => {
 
 export const todayDate = toStringByFormatting(new Date())
 
-export const shuffleNSliceArray = (arr) => {
-  return [...arr].sort(() => Math.random() - 0.5).slice(0, 10)
+export const shuffleArray = (arr) => {
+  return [...arr].sort(() => Math.random() - 0.5)
 }
 
 export const randomFunc = () => {

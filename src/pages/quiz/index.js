@@ -1,7 +1,8 @@
 import {useRecoilState, useRecoilValue} from 'recoil'
 import {
+  currentQuizListState,
   currentQuizWordState,
-  randomNotTodayListState
+  randomNotTodayListState,
 } from '../list/store/useWord'
 import StyledCard from '../../components/common/Card'
 import styled from 'styled-components'
@@ -44,18 +45,15 @@ const Quiz = () => {
   const {currentUser, setCurrentUser} = useUser()
 
   // ** recoil
+  const [list, setList] = useRecoilState(currentQuizListState)
   const [currentIndex, setCurrentIndex] = useRecoilState(currentQuizWordState)
   const randomOptions = useRecoilValue(randomNotTodayListState)
 
   // ** state
-  const [list, setList] = useState(null)
   const [done, setDone] = useState(false)
   const [percent, setPercent] = useState(0)
   const [currentLang, setCurrentLang] = useState(wordType.type1) // 현재 퀴즈 언어
   const [optionLang, setOptionLang] = useState(wordType.type2) // 옵션 언어
-
-  // ** variables
-  const ok = Object.keys(currentUser.history)[0] === date
 
   // 랜덤 언어 설정
   const handleRandomLang = () => {
@@ -73,19 +71,23 @@ const Quiz = () => {
       return item.id === id ? {...item, isCompleted: true} : item
     })
     setList(currentList)
+    // history 업데이트
     setCurrentUser({
       ...currentUser,
       history: {
         ...currentUser.history,
-        [date]: currentList
+        [date]: currentUser.history[date].map(item => {
+          return item.id === id ? {...item, isCompleted: true} : item
+        })
       }
     })
+
     handleRandomLang()
     setCurrentIndex((currentIndex) => (currentIndex + 1))
   }
 
   useEffect(() => {
-    if (list && currentIndex === list.length) {
+    if (list.length > 0 && currentIndex === list.length) {
       setDone(true)
     } else {
       setDone(false)
@@ -93,13 +95,13 @@ const Quiz = () => {
   }, [currentIndex])
 
   useEffect(() => {
-    if (list) {
+    if (list.length > 0) {
       setPercent(Number(Number(currentIndex) / Number(list.length)) * 100)
     }
   }, [list])
 
   useEffect(() => {
-    if (ok) {
+    if (list.length === 0) {
       setList(currentUser.history[date].map(item => item))
     }
     return () => {
@@ -110,7 +112,7 @@ const Quiz = () => {
   return (
     <>
       <Title>Today's Quiz</Title>
-      {list ? (
+      {list.length > 0 ? (
         <>
           {
             list.map((item, id) => (
@@ -125,7 +127,7 @@ const Quiz = () => {
                 </Row>
                 <FlexBox direction="column" gap="2">
                   {randomOptions ? randomOptions.map(item => (
-                    <Card key={item.id} border onClick={() => handleAnswerCheck(item.id)}>{item[optionLang]}</Card>
+                    <Card key={`quiz-option-${item.id}`} border onClick={() => handleAnswerCheck(item.id)}>{item[optionLang]}</Card>
                   )) : null}
                 </FlexBox>
               </Content>
@@ -134,7 +136,8 @@ const Quiz = () => {
           {/* 결과 */}
           <Result
             setCurrentIndex={setCurrentIndex}
-            todayList={list}
+            todayList={currentUser.history[date].map(item => item)}
+            setCurrentList={setList}
             done={done}
           />
         </>

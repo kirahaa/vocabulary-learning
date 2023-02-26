@@ -20,11 +20,14 @@ const QuizResult = styled(FlexBox)`
   font-weight: bold;
 `
 
-const Result = ({setCurrentIndex, todayList, done}) => {
+const Result = ({setCurrentIndex, todayList, setCurrentList, done}) => {
   const navigate = useNavigate()
+  let isNotCompleted = todayList.filter(item => !item.isCompleted).length > 0
 
   const handleRetry = () => {
-    // TODO:: 틀린 단어들만!
+    if (isNotCompleted) {
+      setCurrentList(todayList.filter(item => !item.isCompleted))
+    }
     setCurrentIndex(0)
   }
 
@@ -49,7 +52,7 @@ const Result = ({setCurrentIndex, todayList, done}) => {
         </FlexBox>
         <Row>
           <FlexBox direction="column" gap="2">
-            <Button bgColor="primary" onClick={handleRetry}>Let's try Again</Button>
+            {isNotCompleted ? <Button bgColor="primary" onClick={handleRetry}>Let's try Again</Button> : null}
             <Button bgColor="secondary" onClick={handleBackToListBtn}>Back to List</Button>
           </FlexBox>
         </Row>

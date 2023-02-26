@@ -1,7 +1,9 @@
 import {atom, selector, useRecoilState, useRecoilValue} from 'recoil'
 import {wordLevels, words, wordStates, wordType} from '../../../database/words'
 import {currentUserState} from "../../auth/store/useUser"
-import {todayDate} from '../../../utility'
+import {shuffleArray, todayDate} from '../../../utility'
+
+export const TODAYLISTLENGTH = 10
 
 const wordListState = atom({
   key: 'wordListState',
@@ -16,6 +18,12 @@ export const wordListFilterState = atom({
 // ** 오늘의 단어 리스트 (10개)
 const todayWordListState = atom({
   key: 'todayWordListState',
+  default: []
+})
+
+// ** 현재 퀴즈보는 단어 리스트
+export const currentQuizListState = atom({
+  key: 'currentQuizListState',
   default: []
 })
 
@@ -76,12 +84,12 @@ export const randomNotTodayListState = selector({
   get: ({get}) => {
     const currentIndex = get(currentQuizWordState)
     const words = get(wordListState)
-    const todayList = get(todayWordListState)
-    const notTodayList = [...words].sort(() => Math.random() - 0.5).filter(word => !todayList.includes(word)).slice(0, 2)
-    const currentWord = todayList[currentIndex]
-    const randomOptions = notTodayList.concat(currentWord).sort(() => Math.random() - 0.5)
+    const currentList = get(currentQuizListState)
+    const notTodayList = shuffleArray(words).filter(word => !currentList.includes(word)).slice(0, 2)
+    const currentWord = currentList[currentIndex]
+    const randomOptions = shuffleArray(notTodayList.concat(currentWord))
 
-    if (currentIndex > 9) { // 10개까지
+    if (currentIndex === currentList.length) { // 해당 리스트 갯수만큼
       return null
     } else {
       return randomOptions

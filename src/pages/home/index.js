@@ -9,8 +9,8 @@ import {wordLevels} from '../../database/words'
 import useWord, {todayWordListNumStates, wordListNumStates} from '../list/store/useWord'
 import {useRecoilValue} from 'recoil'
 import useUser from "../auth/store/useUser"
-import {useEffect, useState} from "react"
-import {shuffleNSliceArray, todayDate} from '../../utility'
+import {useEffect} from "react"
+import {shuffleArray, todayDate} from '../../utility'
 import {Swiper, SwiperSlide} from 'swiper/react'
 import 'swiper/css'
 import './swiper.scss'
@@ -91,7 +91,7 @@ const Home = () => {
     } else {
       // history가 없거나, 오늘의 퀴즈를 아직 보지 않은 경우, 랜덤 today list 생성
       if (todayList.length === 0) {
-        setTodayList(shuffleNSliceArray(words))
+        setTodayList(shuffleArray(words).slice(0, 10))
       }
     }
   }, [])
