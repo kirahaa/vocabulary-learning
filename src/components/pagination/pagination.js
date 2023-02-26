@@ -44,7 +44,7 @@ const Pagination = ({total, limit, page, setPage}) => {
           if (i <= 2) {
             return (
               <StyledButton
-                key={i + 1}
+                key={`pagination-btn-${i + 1}`}
                 onClick={() => setPage(firstNum + i + 1)}
                 bgColor={page === firstNum + i + 1 ? "primary" : null}
                 aria-current={page === firstNum + i + 1 ? "page" : null}
@@ -55,7 +55,7 @@ const Pagination = ({total, limit, page, setPage}) => {
           else if (i >= 3) {
             return (
               <StyledButton
-                key={i + 1}
+                key={`pagination-btn-${i + 1}`}
                 onClick={() => setPage(lastNum)}
                 bgColor={page === lastNum ? "primary" : null}
                 aria-current={page === lastNum ? "page" : null}

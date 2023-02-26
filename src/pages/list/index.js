@@ -125,7 +125,7 @@ const List = () => {
               {
                 filteredWordList.slice(offset, offset + limit).map(word => (
                   <WordItem
-                    key={word.en}
+                    key={`list-item-${word.id}`}
                     word={word}
                     type={currentWordType}
                     showCheck={true}
