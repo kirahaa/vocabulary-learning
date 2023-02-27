@@ -10,7 +10,7 @@ import useWord, {todayWordListNumStates, wordListNumStates} from '../list/store/
 import {useRecoilValue} from 'recoil'
 import useUser from "../auth/store/useUser"
 import {useEffect, useState} from 'react'
-import {shuffleArray, todayDate} from '../../utility'
+import {shuffleArray, todayDate, MsgByTimeOfDay, currentTime} from '../../utility'
 import {Swiper, SwiperSlide} from 'swiper/react'
 import 'swiper/css'
 import './swiper.scss'
@@ -133,7 +133,7 @@ const Home = () => {
 
   return (
     <>
-      <Title>Good Evening, {currentUser.name}!</Title>
+      <Title>Good {MsgByTimeOfDay(currentTime)}, {currentUser.name}!</Title>
       <Row>
         <p>Your Progress Today: {todayCompletedNum} / {todayTotalNum} words</p>
         <ProgressBar percent={todayPercentage}/>

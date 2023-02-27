@@ -22,3 +22,17 @@ export const shuffleArray = (arr) => {
 export const randomFunc = () => {
   return Math.random() < 0.5
 }
+
+export const MsgByTimeOfDay = (time) => {
+  if (time >= 5 && time < 12) {
+    return 'Morning'
+  } else if (time >= 12 && time < 17) {
+    return 'Afternoon'
+  } else if (time >= 17 && time < 21) {
+    return 'Evening'
+  } else {
+    return 'Night'
+  }
+}
+
+export const currentTime = new Date().getHours()
