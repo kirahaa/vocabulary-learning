@@ -18,7 +18,7 @@ const WordEn = styled.h4`
     opacity: 0;
     position: absolute;
     top: 0;
-    left: 0;
+    left: -0.1rem;
     width: 100%;
     height: 3rem;
     background-color: ${props => props.theme.bgColors.light};
