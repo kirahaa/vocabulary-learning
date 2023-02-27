@@ -23,7 +23,7 @@ const WordEn = styled.h4`
     height: 3rem;
     background-color: ${props => props.theme.bgColors.light};
     border-radius: .5rem;
-    transition: 1s all;
+    transition: .3s all;
     cursor: pointer;
     z-index: 10;
   }
@@ -44,7 +44,7 @@ const WordKo = styled.p`
     opacity: 0;
     position: absolute;
     top: .5rem;
-    left: 0;
+    left: -0.1rem;
     width: 100%;
     height: 2rem;
     background-color: ${props => props.theme.bgColors.light};
