@@ -41,7 +41,7 @@ const History = () => {
   const [enBtn, setEnBtn] = useState(true) // 기본 모드
   const [koBtn, setKoBtn] = useState(false)
   const [currentWordType, setCurrentWordType] = useState(wordType.type1)
-  const isNotCompleted = currentUser.history[date].filter(item => !item.isCompleted).length > 0
+  const [isNotCompleted, setIsNotCompleted] = useState(false)
 
   const handleRetakeQuiz = () => {
     // 아직 못 맞춘 단어가 있을 경우에만
@@ -70,13 +70,14 @@ const History = () => {
   }, [enBtn, koBtn, currentWordType])
 
   useEffect(() => {
-    let check = Object.keys(currentUser.history).some(item => item === params)
+    let isIncludedIn = Object.keys(currentUser.history).some(item => item === params)
 
-    if (!check) {
+    if (!isIncludedIn) {
       alert('잘못된 경로입니다.')
       navigate('/')
     } else {
       setList(currentUser.history[params])
+      setIsNotCompleted(currentUser.history[params].filter(item => !item.isCompleted).length > 0)
     }
   }, [])
 
