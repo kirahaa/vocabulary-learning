@@ -5,6 +5,8 @@ import {useState} from 'react'
 const Card = styled(StyledCard)`
   text-align: center;
   cursor: pointer;
+  font-size: 1.6rem;
+  line-height: inherit;
   
   h4 {
     font-weight: 500;
@@ -21,8 +23,10 @@ const Option = ({item, option, handleAnswerCheck, optionLang}) => {
 
   return (
     <Card
+      as="button"
       border
       bgColor={isCorrect === true ? "primary" : (isCorrect === false ? "red" : "")}
+      disabled={isCorrect !== null}
       onClick={() => {
         handleAnswerCheck(option.id);
         setIsCorrect(option.id === item.id ? true : false)}}>
