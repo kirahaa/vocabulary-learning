@@ -9,7 +9,7 @@ import styled from 'styled-components'
 import Row from '../../components/common/Row'
 import FlexBox from '../../components/common/FlexBox'
 import Title from '../../components/common/Title'
-import {useEffect, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import Result from './Result'
 import useUser from '../auth/store/useUser'
 import {
@@ -18,6 +18,8 @@ import {
 } from '../../utility'
 import ProgressBar from '../../components/common/ProgressBar'
 import {wordType} from '../../database/words'
+import {flushSync} from 'react-dom'
+import Option from './Option'
 
 const Card = styled(StyledCard)`
   text-align: center;
@@ -43,6 +45,7 @@ const CurrentIndex = styled.p`
 const Quiz = () => {
   // ** hook
   const {currentUser, setCurrentUser} = useUser()
+  const timerId = useRef(null)
 
   // ** recoil
   const [list, setList] = useRecoilState(currentQuizListState)
@@ -57,48 +60,49 @@ const Quiz = () => {
 
   // 랜덤 언어 설정
   const handleRandomLang = () => {
-    if (randomFunc()) {
-      setCurrentLang(wordType.type1)
-      setOptionLang(wordType.type2)
-    } else {
-      setCurrentLang(wordType.type2)
-      setOptionLang(wordType.type1)
-    }
-  }
-
-  const handleAnswerCheck = (id) => {
-    let currentList = list.map(item => {
-      return item.id === id ? {...item, isCompleted: true} : item
-    })
-    setList(currentList)
-    // history 업데이트
-    setCurrentUser({
-      ...currentUser,
-      history: {
-        ...currentUser.history,
-        [date]: currentUser.history[date].map(item => {
-          return item.id === id ? {...item, isCompleted: true} : item
-        })
+    flushSync(() => {
+      if (randomFunc()) {
+        setCurrentLang(wordType.type1)
+        setOptionLang(wordType.type2)
+      } else {
+        setCurrentLang(wordType.type2)
+        setOptionLang(wordType.type1)
       }
     })
-
-    handleRandomLang()
-    setCurrentIndex((currentIndex) => (currentIndex + 1))
   }
 
-  useEffect(() => {
-    if (list.length > 0 && currentIndex === list.length) {
-      setDone(true)
-    } else {
-      setDone(false)
-    }
-  }, [currentIndex])
+  const handleAnswerCheck = (optionId) => {
+    timerId.current = setTimeout(() => {
+      let currentList = list.map(item => {
+        return item.id === optionId ? {...item, isCompleted: true} : item
+      })
+      setList(currentList)
+      // history 업데이트
+      setCurrentUser({
+        ...currentUser,
+        history: {
+          ...currentUser.history,
+          [date]: currentUser.history[date].map(item => {
+            return item.id === optionId ? {...item, isCompleted: true} : item
+          })
+        }
+      })
+      handleRandomLang()
+      setCurrentIndex(currentIndex => (currentIndex + 1))
+    }, 1000)
+  }
 
   useEffect(() => {
     if (list.length > 0) {
       setPercent(Number(Number(currentIndex) / Number(list.length)) * 100)
+
+      if (currentIndex === list.length) {
+        setDone(true)
+      } else {
+        setDone(false)
+      }
     }
-  }, [list])
+  }, [list, currentIndex])
 
   useEffect(() => {
     if (list.length === 0) {
@@ -107,6 +111,7 @@ const Quiz = () => {
     return () => {
       setCurrentIndex(0) // 인덱스 초기화
       setList([]) // 현재 quiz list 초기화
+      clearTimeout(timerId.current) // 타이머 clear
     }
   }, [])
 
@@ -127,8 +132,14 @@ const Quiz = () => {
                   </Card>
                 </Row>
                 <FlexBox direction="column" gap="2">
-                  {randomOptions ? randomOptions.map(item => (
-                    <Card key={`quiz-option-${item.id}`} border onClick={() => handleAnswerCheck(item.id)}>{item[optionLang]}</Card>
+                  {randomOptions ? randomOptions.map(option => (
+                    <Option
+                      key={`quiz-option-${option.id}`}
+                      item={item}
+                      option={option}
+                      handleAnswerCheck={handleAnswerCheck}
+                      optionLang={optionLang}
+                    />
                   )) : null}
                 </FlexBox>
               </Content>
