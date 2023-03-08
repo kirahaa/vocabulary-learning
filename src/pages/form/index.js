@@ -95,7 +95,7 @@ const Form = () => {
               {...register('en', {
                 required: "English is Required",
                 pattern: {
-                  value:  /^[A-Za-z][A-Za-z0-9]*$/,
+                  value:  /^[a-zA-Z0-9 ]*$/,
                   message: 'Please write in english only'
                 }
               })}
@@ -109,7 +109,7 @@ const Form = () => {
               {...register('ko', {
                 required: "Korean is Required",
                 pattern: {
-                  value: /^[ㄱ-ㅎ|가-힣|0-9]+$/,
+                  value: /^[ㄱ-ㅎ|가-힣|0-9| ]+$/,
                   message: 'Please write in korean only'
                 }
               })}
