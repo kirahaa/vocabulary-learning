@@ -41,7 +41,7 @@ export const todayWordListNumStates = selector({
     const todayList = user.history ? user.history[todayDate] ? user.history[todayDate] : get(todayWordListState) : get(todayWordListState)
     const todayTotalNum = todayList.length
     const todayCompletedNum = todayList.filter(item => item.isCompleted).length
-    const todayPercentage = todayTotalNum !== 0 && (todayCompletedNum / todayTotalNum) * 100
+    const todayPercentage = todayTotalNum && (todayCompletedNum / todayTotalNum) * 100
 
     return {
       todayTotalNum,
@@ -60,7 +60,7 @@ export const wordListNumStates = selector({
     const totalNum = list.length
     const totalCompletedNum = list.filter((item) => item.isCompleted).length
     const totalUnCompletedNum = totalNum - totalCompletedNum
-    const percentCompleted = totalNum === 0 ? 0 : (totalCompletedNum / totalNum) * 100
+    const percentCompleted = !totalNum ? 0 : (totalCompletedNum / totalNum) * 100
 
     const basicNum = list.filter((item) => item.level === wordLevels.basic).length
     const interNum = list.filter((item) => item.level === wordLevels.intermediate).length
