@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/vocabulary-learning/static/css/main.234581f0.css",
-    "main.js": "/vocabulary-learning/static/js/main.e5ca6e9e.js",
+    "main.js": "/vocabulary-learning/static/js/main.bc53865e.js",
     "static/media/title.png": "/vocabulary-learning/static/media/title.6c6149c23947e6343eea.png",
     "static/media/defaultProfile.png": "/vocabulary-learning/static/media/defaultProfile.708fe11ce591a4832fcf.png",
     "index.html": "/vocabulary-learning/index.html",
     "main.234581f0.css.map": "/vocabulary-learning/static/css/main.234581f0.css.map",
-    "main.e5ca6e9e.js.map": "/vocabulary-learning/static/js/main.e5ca6e9e.js.map"
+    "main.bc53865e.js.map": "/vocabulary-learning/static/js/main.bc53865e.js.map"
   },
   "entrypoints": [
     "static/css/main.234581f0.css",
-    "static/js/main.e5ca6e9e.js"
+    "static/js/main.bc53865e.js"
   ]
 }
