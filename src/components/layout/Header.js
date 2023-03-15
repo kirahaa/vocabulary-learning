@@ -11,6 +11,10 @@ const HeaderWrap = styled.header`
   left: 0;
   width: 100%;
   padding: 6rem 4rem;
+
+  @media screen and (max-width: 540px) {
+    padding: 4rem 4rem;
+  }
 `
 
 const Button = styled.button`

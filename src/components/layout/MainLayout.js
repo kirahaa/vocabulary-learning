@@ -15,6 +15,10 @@ const Layout = styled.div`
   border-radius: 5rem;
   overflow: hidden;
   background: ${props => props.theme.bgColors.dark};
+
+  @media screen and (max-width: 540px) {
+    padding: 15rem 4rem 0;
+  }
 `
 
 const MainLayout = () => {
