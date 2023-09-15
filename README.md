@@ -1,30 +1,37 @@
-# Vocabulary-learning
+# :blue_book: VOCA VACA 영어암기장
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 프로젝트 링크
 
-## Available Scripts
+🌐[VOCA VACA 영어암기장](https://kirahaa.github.io/vocabulary-learning/)
 
-In the project directory, you can run:
+## 프로젝트 개요
 
-### `npm start`
+:white_check_mark: **프로젝트 한줄 소개**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+영어 단어를 외울 수 있는 암기장 서비스 입니다.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+:white_check_mark: **기획 의도**
 
-### `npm run build`
+영어 단어를 외울만한 서비스를 찾던 중에 마음에 드는 서비스가 없어, 직접 제 입맛에 맞는 단어장을 만들어 보기로 하였습니다! :sparkles:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+:white_check_mark: **진행 기간**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2023.02.14 - 2023.03.15
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+:white_check_mark: **구성원**
+:runner: [김하영](https://github.com/kirahaa)
 
-### `npm run deploy`
-Deploy this project.
+## 기술 스택
 
-[Open in your browser](https://kirahaa.github.io/vocabulary-learning/)
+<div align="start">
+  <img src="https://img.shields.io/badge/javascript-3178C6?style=for-the-badge&logo=javascript&logoColor=white">
+  <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
+  <img src="https://recoiljs.org/ko/img/logo.svg" height='28px'>
+</div>
+
+## 서비스 소개
+
+<img src="https://github.com/kirahaa/vocabulary-learning/assets/77843652/fc27f474-aee4-4e78-ba2e-82834c1dbfaf" width='47%'/>
+<img src="https://github.com/kirahaa/vocabulary-learning/assets/77843652/4855d533-4237-4fa9-8861-e206829ffd2e" width='47%' align="right"/>
+<img src="https://github.com/kirahaa/vocabulary-learning/assets/77843652/afc1d50a-38a3-4a64-8791-12ea37059e4b" width='47%' align="left"/>
+<img src="https://github.com/kirahaa/vocabulary-learning/assets/77843652/48d9ce62-1353-4bde-85ea-436aa1dc374d" width='47%' align="right"/>
