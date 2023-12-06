@@ -4,6 +4,10 @@
 
 🌐[VOCA VACA 영어암기장](https://kirahaa.github.io/vocabulary-learning/)
 
+🎈 초기 화면에서 회원가입을 하시거나, 테스트 계정(`ID: hayeong / PW: test123`)을 통해 로그인하시면 됩니다✨
+
+<br/>
+
 ## 프로젝트 개요
 
 :white_check_mark: **프로젝트 한줄 소개**
@@ -21,6 +25,8 @@
 :white_check_mark: **구성원**
 :runner: [김하영](https://github.com/kirahaa)
 
+<br/>
+
 ## 기술 스택
 
 <div align="start">
@@ -28,6 +34,8 @@
   <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
   <img src="https://recoiljs.org/ko/img/logo.svg" height='28px'>
 </div>
+
+<br/>
 
 ## 서비스 소개
 
